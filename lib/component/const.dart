@@ -1,0 +1,2 @@
+const String GEMINI_API_KEY ='AIzaSyAnbtcJIHxYy4CsSYrSQS6-EsNkjEIFBQo';
+const OPEN_API_KEY ='sk-proj-L6DzLemHyPXQACcWj2tBT3BlbkFJna37Qy0F4mmGUaXSRg7o';
