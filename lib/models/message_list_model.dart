@@ -37,7 +37,7 @@ class MessageListModel {
 }
 
 class Message {
-  int id;
+  int? id;
   String type;
   int fromId;
   int toId;
@@ -61,9 +61,9 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
     id: json["id"],
-    type: json["type"],
-    fromId: json["from_id"],
-    toId: json["to_id"],
+    type: json["type"].toString(),
+    fromId: int.parse(json["from_id"].toString()),
+    toId: int.parse(json["to_id"].toString()),
     body: json["body"],
     attachment: json["attachment"],
     seen: json["seen"],

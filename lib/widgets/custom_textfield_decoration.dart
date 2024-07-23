@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomTextFieldDecoration extends StatelessWidget {
   final TextEditingController controller;
-  final Function() onSendMessage;
+  final Function()? onSendMessage;
 
   const CustomTextFieldDecoration({
     required this.controller,
-    required this.onSendMessage,
+    this.onSendMessage,
   });
 
   @override

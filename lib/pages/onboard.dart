@@ -16,20 +16,21 @@ class OnboardPage extends StatefulWidget {
 class _OnboardPageState extends State<OnboardPage> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFFF60205),
+        backgroundColor: const  Color(0xFFF60205),
         title: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
+            children: <Widget>[
+              SizedBox(
                 width: 40,
                 height: 40,
                 child: Image.asset('assets/1.png'),
               ),
-              Text('AssignBot',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
+              const Text('AssignBot',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),),
             ],
           ),
         ),

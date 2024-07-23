@@ -96,34 +96,25 @@ class _ContactPageState extends State<ContactPage> {
                   final contact = contacts[index];
                   return Column(
                     children: [
-                      InkWell(
+                      ListTile(
                         onTap: () {
-                          // Get.to(Basic());
+                          _fetchMessageApi.fetchmessageapi(contact.id);
+                          Get.to(ChattingPage(userId: contact.id));
                         },
-                        child: InkWell(
-                          onTap: (){
-                            _fetchMessageApi.fetchmessageapi(contact.id);
-                          },
-                          child: ListTile(
-                            onTap: () {
-                              Get.to(ChattingPage(userId: contact.id));
-                            },
-                            leading: Image.asset(people[index]['image']!),
-                            title: Text(
-                              contact.name ?? '',
-                              style: TextStyle(fontSize: SC.fromWidth(24)),
-                            ),
-                            subtitle: Text(
-                              contact.email ?? '',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            trailing: Padding(
-                              padding: const EdgeInsets.only(bottom: 18.0),
-                              child: Text(
-                                timeago.format(contact.maxCreatedAt ?? DateTime.now()),
-                                style: TextStyle(fontSize: SC.fromWidth(35)),
-                              ),
-                            ),
+                        // leading: Image.asset(people[index]['image']!),
+                        title: Text(
+                          contact.name ?? '',
+                          style: TextStyle(fontSize: SC.fromWidth(24)),
+                        ),
+                        subtitle: Text(
+                          contact.email ?? '',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        trailing: Padding(
+                          padding: const EdgeInsets.only(bottom: 18.0),
+                          child: Text(
+                            timeago.format(contact.maxCreatedAt ?? DateTime.now()),
+                            style: TextStyle(fontSize: SC.fromWidth(35)),
                           ),
                         ),
                       ),

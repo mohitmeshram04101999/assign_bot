@@ -165,10 +165,10 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
   int backPress = 0;
 
   final List<Widget> pages = [
-    HomePage(),
-    ContactPage(),
-    UserEditProfile(),
-    LogoutPage(),
+    const HomePage(),
+    const ContactPage(),
+    const UserEditProfile(),
+    const LogoutPage(),
 
   ];
 

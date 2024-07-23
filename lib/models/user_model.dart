@@ -22,7 +22,7 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     message: json["message"],
     success: json["success"],
-    data: Data.fromJson(json["data"]),
+    data: Data.fromJson(json["data"]??{}),
   );
 
   Map<String, dynamic> toJson() => {
