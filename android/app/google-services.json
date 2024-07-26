@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "880785164296",
+    "project_id": "satyakabir-chat",
+    "storage_bucket": "satyakabir-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880785164296:android:4ade5aaa11b0e9a43269bd",
+        "android_client_info": {
+          "package_name": "com.example.assignbot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5uzzUn_xX7u7bg_iBcikUlHCw4Z9xPdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880785164296:android:bcd61d12e6ef823c3269bd",
+        "android_client_info": {
+          "package_name": "com.skchat.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5uzzUn_xX7u7bg_iBcikUlHCw4Z9xPdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
