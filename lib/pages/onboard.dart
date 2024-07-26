@@ -35,68 +35,73 @@ class _OnboardPageState extends State<OnboardPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: ListView(
-          children: [
+      body: SingleChildScrollView(
 
-            SizedBox(height: SC.fromHeight(10),),
-            Container(
-              // decoration: BoxDecoration(border: Border.all()),
-              width: SC.fromWidth(20),
-              height: SC.fromHeight(2.3),
-              child: Image.asset('assets/1.png'),
-            ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
 
-            Center(
-              child: ShaderMask(
-                shaderCallback: (bounds) => LinearGradient(
-                  colors: [Color(0xFFF60205), Color(0xFFFFDE59)], // Gradient colors
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ).createShader(bounds),
-                child: RichText(
-                  text: TextSpan(
-                    text: '    Welcome to\n', // First part of the text
-                    style: TextStyle(
-                      fontSize: SC.fromWidth(11), // Smaller font size for "Welcome to"
-                      fontWeight: FontWeight.w500, // Regular weight
-                      color: Colors.white, // Text color (not used in gradient)
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: ' SatyaKabir Chat', // Second part of the text
+              children: [
+
+                SizedBox(height: SC.fromHeight(10),),
+                Container(
+                  // decoration: BoxDecoration(border: Border.all()),
+                  // width: SC.fromContextWidth(context, 20),
+                  height: SC.fromContextWidth(context, 1.2),
+                  child: Image.asset('assets/1.png'),
+                ),
+
+                Center(
+                  child: ShaderMask(
+                    shaderCallback: (bounds) => const  LinearGradient(
+                      colors: [Color(0xFFF60205), Color(0xFFFFDE59)], // Gradient colors
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(bounds),
+                    child: RichText(
+                      text: TextSpan(
+                        text: '    Welcome to\n', // First part of the text
                         style: TextStyle(
-                          fontSize: SC.fromWidth(12), // Larger font size for "AssignBot"
+                          fontSize: SC.fromWidth(11), // Smaller font size for "Welcome to"
                           fontWeight: FontWeight.w500, // Regular weight
                           color: Colors.white, // Text color (not used in gradient)
                         ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' SatyaKabir Chat', // Second part of the text
+                            style: TextStyle(
+                              fontSize: SC.fromWidth(12), // Larger font size for "AssignBot"
+                              fontWeight: FontWeight.w500, // Regular weight
+                              color: Colors.white, // Text color (not used in gradient)
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
 
-            SizedBox(height: SC.fromHeight(25),),
+                SizedBox(height: SC.fromHeight(25),),
 
-            CustomButton(text: 'LOGIN', onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
-            },
-            ),
-            SizedBox(height: SC.fromHeight(45),),
-            CustomButton(
-              text: 'SIGN UP', onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SignupPage()),
-              );
-            },
-            ),
+                CustomButton(text: 'LOGIN', onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
+                },
+                ),
+                SizedBox(height: SC.fromHeight(45),),
+                // CustomButton(
+                //   text: 'SIGN UP', onPressed: () {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => const SignupPage()),
+                //   );
+                // },
+                // ),
 
-          ],
+              ],
+            ),
         ),
       ),
+
     );
   }
 }

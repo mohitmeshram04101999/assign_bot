@@ -34,8 +34,8 @@ class FetchMessageApi extends GetxController{
         "Content-Type": "application/json"
       },
     );
-
-
+    
+    print(response.body);
 
     var dataa = jsonDecode(response.body);
 
@@ -168,15 +168,25 @@ class MessageController with ChangeNotifier
     var d = await  resp.stream.bytesToString();
     var d2 = jsonDecode(d);
     var dataDecode =  d2["message"];
+    print(dataDecode);
+    // var nm  = Message.fromJson(dataDecode);
 
-    print("\n${dataDecode}\n");
+
+    print("${dataDecode["created_at"] } = ${DateTime.now().toIso8601String()}");
+     var time2  = DateTime.parse(dataDecode["created_at"]);
+    var time = DateTime.now();
+
+    print("convert time ${time2.hour}:${time2.minute}  =   ${time.hour}:${time.minute}   ${time2.timeZoneOffset}");
+
+    print(user.toJson());
+
     Message newMessage =  Message(
       id: dataDecode["id"],
       fromId: dataDecode["from_id"],
       toId: int.parse(dataDecode["to_id"].toString()),
       body: dataDecode["message"],
       attachment: null,
-      createdAt: DateTime.parse(dataDecode["created_at"]),
+      createdAt: setDateTime(dataDecode["created_at"]),
       updatedAt: DateTime.now(),
       seen: 0,
       type: "",
@@ -191,8 +201,11 @@ class MessageController with ChangeNotifier
 
   addNewMessage(Message message)
   {
-    _messages.add(message);
+    print("sdhgf");
+    _messages.insert(0, message);
+    print("sdhgf");
     notifyListeners();
+    print("sdhgf");
   }
 
   clear()
@@ -203,7 +216,10 @@ class MessageController with ChangeNotifier
     notifyListeners();
   }
 
+}
 
-
-
+DateTime setDateTime(String s)
+{
+  DateTime d = DateTime.parse(s.split("+").first);
+  return d;
 }

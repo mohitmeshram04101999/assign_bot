@@ -3,11 +3,15 @@
 import 'dart:convert';
 
 import 'package:assignbot/component/dimension.dart';
+import 'package:assignbot/component/loder.dart';
+import 'package:assignbot/controller/chat_controller.dart';
 import 'package:assignbot/controller/chat_controllers/fetch_message_api.dart';
 import 'package:assignbot/models/message_list_model.dart';
+import 'package:assignbot/models/user_contact_model.dart';
 import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/sharedpref/user_pref_model.dart';
 import 'package:assignbot/widgets/custom_textfield_decoration.dart';
+import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
@@ -16,15 +20,14 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
-// import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 
 
 
 class ChattingPage extends StatefulWidget {
-
+  final Contact contact;
   final dynamic userId;
-  const ChattingPage({super.key,required this.userId});
+  const ChattingPage({required this.contact,super.key,required this.userId});
 
   @override
   State<ChattingPage> createState() => _ChattingPageState();
@@ -80,70 +83,48 @@ class _ChattingPageState extends State<ChattingPage> {
 
   Widget _buildMessage(Message messageData,dynamic currentUserId) {
     String message = messageData.body??'';
-    // String imagePath = messageData.ava ?? '';
     int sender = messageData.toId;
     DateTime time = messageData.createdAt;
-    // bool seen = messageData['seen'];
     bool isUser = sender == currentUserId;
 
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-        padding: EdgeInsets.all(10.0),
+        margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        padding: const  EdgeInsets.all(10.0),
         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
         decoration: BoxDecoration(
-          color: isUser ? Color.fromRGBO(254, 217, 87, 1) : Color.fromRGBO(252, 239, 192, 1),
+          color: isUser ?const Color.fromRGBO(254, 217, 87, 1) : const Color.fromRGBO(252, 239, 192, 1),
           borderRadius: BorderRadius.only(
-            topRight: isUser ? Radius.zero : Radius.circular(20),
-            topLeft: isUser ? Radius.circular(20) : Radius.circular(20),
-            bottomRight: isUser ? Radius.circular(20) : Radius.circular(20),
-            bottomLeft: isUser ? Radius.circular(20) : Radius.zero,
+            topRight: isUser ? Radius.zero :const  Radius.circular(20),
+            topLeft: isUser ?const  Radius.circular(20) : Radius.zero,
+            bottomRight:const  Radius.circular(20),
+            bottomLeft: const Radius.circular(20),
           ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
               blurRadius: 4.0,
-              offset: Offset(0, 2),
+              offset:const  Offset(0, 2),
             ),
           ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: isUser? CrossAxisAlignment.end:CrossAxisAlignment.start,
           children: [
             if (message.isNotEmpty)
               Text(
                 message,
-                style: TextStyle(
+                style: const  TextStyle(
                   fontSize: 16,
-                  color: Colors.grey.shade700,
+                  color: Colors.black,
                 ),
               ),
-            // if (imagePath.isNotEmpty)
-            //   Padding(
-            //     padding: const EdgeInsets.symmetric(vertical: 8.0),
-            //     child: ClipRRect(
-            //       borderRadius: BorderRadius.circular(10),
-            //       child: Image.file(
-            //
-            //         File(imagePath),
-            //
-            //         fit: BoxFit.cover,
-            //       ),
-            //     ),
-            //   ),
-            // SizedBox(height: 4.0),
-            // if (isUser)
-              // Icon(
-              //   seen ? Icons.check_circle : Icons.check_circle_outline,
-              //   size: 16,
-              //   color: seen ? Colors.blue : Colors.grey,
-              // ),
             Text(
-              DateFormat('hh:mm a').format(time),
-              style: TextStyle(
+            "${time.hour}:${time.minute}",
+              style: const TextStyle(
                 fontSize: 12,
-                color: Colors.grey.shade500,
+                color: Colors.black,
               ),
             ),
           ],
@@ -195,18 +176,21 @@ class _ChattingPageState extends State<ChattingPage> {
       print( "My Event event ${event.eventName}");
       print(event.data);
 
-      var _data = jsonDecode(event.data);
-      chatController.addNewMessage(Message(
-        body: _data["message"],
-        attachment: _data["file"],
-        createdAt: DateTime.now(),
-        fromId: widget.userId,
-        toId: userData?.userId??0,
-        id: _data["id"],
-        type: _data["type"],
-        seen: 0,
-        updatedAt: DateTime.now()
-      ));
+      var data = jsonDecode(event.data);
+      Provider.of<MessageController>(context,listen: false).addNewMessage(
+        Message(
+          id: data["message"]["id"],
+          toId: data["message"]["to_id"],
+          seen:data["message"]["seen"]??0,
+          attachment: null,
+          type: "sdf",
+          body: data["message"]["message"],
+          fromId: data["message"]["from_id"],
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+
+        )
+      );
     }
   }
 
@@ -240,6 +224,7 @@ class _ChattingPageState extends State<ChattingPage> {
           padding: const EdgeInsets.only(left: 38.0),
           child: Text(
             'Chat ${widget.userId}',
+            // '${widget.contact.email??""}',
             style:const  TextStyle(fontWeight: FontWeight.w500),
           ),
         ),
@@ -256,15 +241,15 @@ class _ChattingPageState extends State<ChattingPage> {
                 return Consumer<MessageController>(builder: (a,p,c){
 
                   if(p.messages.isNotEmpty){
-                    List messages = p.messages;
+
 
                     return ListView.builder(
                       controller: _scrollController,
                       reverse: true,
                       padding:const EdgeInsets.all(8.0),
-                      itemCount: messages.length,
+                      itemCount: p.messages.length,
                       itemBuilder: (context, index) {
-                        Message  messageData = messages[index];
+                        Message  messageData = p.messages[index];
                         return _buildMessage(messageData, widget.userId);
                       },
                     );
@@ -276,7 +261,7 @@ class _ChattingPageState extends State<ChattingPage> {
                   }
 
                   if(p.loading){
-                    return const Center(child: CircularProgressIndicator());
+                    return const Loader();
                   }
 
                   return const Center(child:  Text("No Chats Available"),);
@@ -329,27 +314,32 @@ class _ChattingPageState extends State<ChattingPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: CustomTextFieldDecoration(
+                            suffixIcon: IconButton(onPressed: (){}, icon:  Transform(
+                              alignment: Alignment.center,
+                              transform:Matrix4.rotationZ(4),child: const  Icon(Icons.attachment_outlined),)),
+                            icon: IconButton(
+                              icon: Icon(
+                                _showEmojiPicker ? Icons.keyboard : Icons.emoji_emotions_outlined,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  if (_showEmojiPicker) {
+                                    _focusNode.requestFocus();
+                                    _showEmojiPicker = false;
+                                  } else {
+                                    _focusNode.unfocus();
+                                    _showEmojiPicker = true;
+                                  }
+                                });
+                              },
+                            ),
                             controller: _messageController,
                           ),
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(
-                          _showEmojiPicker ? Icons.keyboard : Icons.emoji_emotions_outlined,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            if (_showEmojiPicker) {
-                              _focusNode.requestFocus();
-                              _showEmojiPicker = false;
-                            } else {
-                              _focusNode.unfocus();
-                              _showEmojiPicker = true;
-                            }
-                          });
-                        },
-                      ),
+
+
                       Container(
                         margin:const  EdgeInsets.only(left: 10),
                         decoration: BoxDecoration(

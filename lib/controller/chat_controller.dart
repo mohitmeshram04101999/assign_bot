@@ -9,7 +9,7 @@ class ChatController extends GetxController {
   var currentUser = ChatUser(id: '').obs;
   var otherUser = ChatUser(id: '').obs;
 
-  void addNewMessage(ChatMessage message) {
+  void addMessage(ChatMessage message) {
     messages.insert(0, message);
   }
 

@@ -13,6 +13,12 @@ class UserPreference{
     return true;
   }
 
+  Future<void> logOut() async
+  {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.clear();
+  }
+
 
 
   Future<UserPrefModel> getUser()async{

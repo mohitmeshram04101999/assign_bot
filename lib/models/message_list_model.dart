@@ -3,6 +3,7 @@
 //     final messageListModel = messageListModelFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:developer';
 
 MessageListModel messageListModelFromJson(String str) => MessageListModel.fromJson(json.decode(str));
 
@@ -59,17 +60,25 @@ class Message {
     required this.updatedAt,
   });
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-    id: json["id"],
-    type: json["type"].toString(),
-    fromId: int.parse(json["from_id"].toString()),
-    toId: int.parse(json["to_id"].toString()),
-    body: json["body"],
-    attachment: json["attachment"],
-    seen: json["seen"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-  );
+  factory Message.fromJson(Map<String, dynamic> json) {
+    // log('converted Time: ${DateTime.parse(json["created_at"].toString().split("+").first)}\n api Time:${json["created_at"]}')
+
+    Duration offset =  const Duration(minutes: 165);
+
+
+
+    return Message(
+      id: json["id"],
+      type: json["type"].toString(),
+      fromId: int.parse(json["from_id"].toString()),
+      toId: int.parse(json["to_id"].toString()),
+      body: json["body"],
+      attachment: json["attachment"],
+      seen: json["seen"],
+      createdAt: DateTime.parse(json["created_at"].toString().split("+").first).add(offset) ,
+      updatedAt: DateTime.parse(json["updated_at"].toString().split("+").first).add(offset) ,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,

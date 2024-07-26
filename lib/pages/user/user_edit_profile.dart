@@ -1,9 +1,12 @@
+import 'package:assignbot/component/constent.dart';
 import 'package:assignbot/component/dimension.dart';
 import 'package:assignbot/pages/user/help.dart';
 import 'package:assignbot/pages/user/user_profile.dart';
 import 'package:assignbot/widgets/custom_button.dart';
 import 'package:assignbot/widgets/custom_textfield_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserEditProfile extends StatefulWidget {
   const UserEditProfile({super.key});
@@ -22,11 +25,11 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 28.0),
-          child: Text(' User Profile/Edit',style: TextStyle(fontWeight: FontWeight.w500),),
+        title: const  Padding(
+          padding: EdgeInsets.only(left: 28.0),
+          child: Text(' User Profile',style: TextStyle(fontWeight: FontWeight.w500),),
         ),
-        backgroundColor: Color(0xFFF60205),
+        backgroundColor: const  Color(0xFFF60205),
       ),
 
       body: SingleChildScrollView(
@@ -44,34 +47,45 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
                     width: double.infinity,
                     height: SC.fromHeight(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        colors: [Color(0xFFFFFFFF), Color(0xFFFED957)], // define the colors you want in the gradient
-                        begin: Alignment.topLeft, // define the start point
-                        end: Alignment.bottomRight, // define the end point
-                      ),
-                    ),
+                    decoration: AppConstante.decoration,
                     child: Center(child: Padding(
                       padding: const EdgeInsets.only(top: 18.0),
-                      child: Text('Anuradha Mishra',style: TextStyle(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(25)),),
+                      child: Text('Anuradha Mishra',style: GoogleFonts.akshar(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(25)),),
                     ),),
                   ),
 
                   Positioned(
                     top: -50,
-                    child: CircleAvatar(
-                      foregroundColor: Colors.white,
-                      radius: 40,
-                      child: CircleAvatar(
-                        radius: 35,
-                        backgroundImage: AssetImage(
-                            'assets/img.png'
-                        ),
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:  Colors.grey.shade300,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.shade500,
+                                blurRadius: 1
+                            )
+                          ]
                       ),
 
-                      backgroundColor: Colors.white,
+                      child:  Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          const CircleAvatar(
+                            radius: 35,
+                            backgroundImage: AssetImage(
+                                'assets/img.png'
+                            ),
+                          ),
 
+                          Positioned(
+                              bottom: 5,
+                              right: -10,
+                              child: SvgPicture.asset("assets/cameraIcon.svg"))
+                        ],
+                      ),
                     ),
                   )
 
@@ -82,28 +96,20 @@ class _UserEditProfileState extends State<UserEditProfile> {
               Container(
                 width: double.infinity,
                 // height: SC.fromHeight(2),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFFFFFFF), Color(0xFFFED957)], // define the colors you want in the gradient
-                      begin: Alignment.centerLeft, // define the start point
-                      end: Alignment.centerRight, // define the end point
-                    ),
-                    borderRadius: BorderRadius.circular(15)
-
-                ),
+                decoration:AppConstante.decoration,
                 child: Column(
                   children: [
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Personal Informaiton',style: TextStyle(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(22)),),
-                        SizedBox(width: 10,),
+                        Text('Personal Information',style: GoogleFonts.akshar(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(22)),),
+                        const SizedBox(width: 10,),
                         InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>UserProfile()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const UserProfile()));
                           },
-                          child: Container(
+                          child: SizedBox(
                             width: 25,
                             height: 25,
                             child: Image.asset('assets/edit.png'),
@@ -111,11 +117,11 @@ class _UserEditProfileState extends State<UserEditProfile> {
                         )
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
 
                     // FULL NAME //
                     CustomTextFieldContainer(
-                      hintText: 'Full Name',
+                      hintText: 'Full Name*',
                       height:  SC.fromHeight(16), // The height of the container
                       controller: myController,
                       validator: (value) {
@@ -129,7 +135,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
                     // EMAIL ID //
                     CustomTextFieldContainer(
-                      hintText: 'Eail Id',
+                      hintText: 'Email Id*',
                       height:  SC.fromHeight(16), // The height of the container
                       controller: myController,
                       validator: (value) {
@@ -143,7 +149,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
                     // MOBILE NUMBER //
                     CustomTextFieldContainer(
-                      hintText: 'Mobile Number',
+                      hintText: 'Mobile Number*',
                       height:  SC.fromHeight(16), // The height of the container
                       controller: myController,
                       validator: (value) {
@@ -156,7 +162,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
                     // DESIGNATION //
                     CustomTextFieldContainer(
-                      hintText: 'Designation',
+                      hintText: 'Designation*',
                       height:  SC.fromHeight(16), // The height of the container
                       controller: myController,
                       validator: (value) {
@@ -182,55 +188,51 @@ class _UserEditProfileState extends State<UserEditProfile> {
               Container(
                 width: double.infinity,
                 // height: SC.fromHeight(2),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFFFFFFF), Color(0xFFFED957)], // define the colors you want in the gradient
-                      begin: Alignment.centerLeft, // define the start point
-                      end: Alignment.centerRight, // define the end point
-                    ),
-                    borderRadius: BorderRadius.circular(15)
-
-                ),
+                decoration:  AppConstante.decoration,
                 child: Column(
                   children: [
-                    SizedBox(height: 20,),
-                    Text('Help & Logout',style: TextStyle(fontWeight: FontWeight.w600,fontSize: SC.fromWidth(22)),),
 
-                    SizedBox(height: 10,),
+
+                    const SizedBox(height: 20,),
+                    Text('Help & Logout',style: GoogleFonts.akshar(fontWeight: FontWeight.w600,fontSize: SC.fromWidth(20)),),
+
+                    const SizedBox(height: 10,),
 
                     Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const  EdgeInsets.all(10),
                       child: InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>NeedHelp()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const NeedHelp()));
                         },
                         child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: const  [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 3,
+                                offset: Offset(0,2)
+                              ),
+                            ],
+
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          height: SC.fromHeight(16),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text('NEED HELP',
-                                style: TextStyle(fontWeight: FontWeight.w600,fontSize: SC.fromWidth(21),color: Color(0xFFF60807)),),
-                              SizedBox(width: 5,),
-                              Icon(Icons.arrow_forward,color: Color(0xFFF60807),)
+                                style: GoogleFonts.akshar(fontWeight: FontWeight.w600,fontSize: SC.fromWidth(21),color: const Color(0xFFF60807)),),
+                              const SizedBox(width: 5,),
+                              const Icon(Icons.arrow_forward,color: Color(0xFFF60807),)
                             ],
                           ),
-
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            // gradient: LinearGradient(
-                            //   colors: gradientColors,
-                            //   begin: Alignment.topLeft,
-                            //   end: Alignment.bottomRight,
-                            // ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          height: SC.fromHeight(16),
                         ),
                       ),
                     ),
 
                     Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: CustomButton(text: 'LOGOUT', onPressed: () {
                         _showLogoutDialog();
                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>LogoutPage()));
@@ -255,7 +257,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
           content: Padding(
             padding: const EdgeInsets.only(top: 18.0),
-            child: Text("Are you sure you want to logout?",style: TextStyle(fontSize: SC.fromWidth(24)),),
+            child: Text("Are you sure you want to logout?",style: GoogleFonts.akshar(fontSize: SC.fromWidth(24)),),
           ),
           actions: <Widget>[
             Row(
@@ -265,7 +267,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   width:  SC.fromContextWidth(context, 4),
                   height: SC.fromHeight(25),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [ Color(0xFFF60205), Color(0xFFFFDE59)],
                     ),
                     borderRadius: BorderRadius.circular(10),
@@ -273,19 +275,19 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   child: Center(
                     child: Text(
                       "Yes",
-                      style: TextStyle(
+                      style: GoogleFonts.akshar(
                         color: Colors.white,
                         fontSize: SC.fromWidth(20),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Container(
                   width:  SC.fromContextWidth(context, 4),
                   height: SC.fromHeight(25),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [Color(0xFFF60205), Color(0xFFFFDE59)],
                     ),
                     borderRadius: BorderRadius.circular(10),
@@ -293,7 +295,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
                   child: Center(
                     child: Text(
                       "No",
-                      style: TextStyle(
+                      style: GoogleFonts.akshar(
                         color: Colors.white,
                         fontSize: SC.fromWidth(20),
                       ),

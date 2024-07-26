@@ -1,8 +1,10 @@
+import 'package:assignbot/component/constent.dart';
 import 'package:assignbot/component/dimension.dart';
-import 'package:assignbot/pages/logout/logout_page.dart';
 import 'package:assignbot/widgets/custom_button.dart';
 import 'package:assignbot/widgets/custom_textfield_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -21,15 +23,15 @@ class _UserProfileState extends State<UserProfile> {
 
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 28.0),
-          child: Text(' User Profile/Edit',style: TextStyle(fontWeight: FontWeight.w500),),
+        title:const  Padding(
+          padding: EdgeInsets.only(left: 28.0),
+          child:  Text(' User Profile/Edit',style: TextStyle(fontWeight: FontWeight.w500),),
         ),
-        backgroundColor: Color(0xFFF60205),
+        backgroundColor: const Color(0xFFF60205),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+          padding: const  EdgeInsets.symmetric(horizontal: 18.0),
           child: Column(
         
             children: [
@@ -39,40 +41,54 @@ class _UserProfileState extends State<UserProfile> {
                 alignment: Alignment.center,
                 children: [
                   Container(
-                    
                     width: double.infinity,
                     height: SC.fromHeight(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        colors: [Color(0xFFFFFFFF), Color(0xFFFED957)], // define the colors you want in the gradient
-                        begin: Alignment.topLeft, // define the start point
-                        end: Alignment.bottomRight, // define the end point
-                      ),
-                    ),
+                    decoration: AppConstante.decoration,
                     child: Center(child: Padding(
                       padding: const EdgeInsets.only(top: 18.0),
-                      child: Text('Anuradha Mishra',style: TextStyle(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(25)),),
+                      child: Text('Anuradha Mishra',style: GoogleFonts.akshar(textStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(25))),),
                     ),),
                   ),
-        
-                  Positioned(
+
+
+                   Positioned(
                     top: -50,
-                    child: CircleAvatar(
-                      foregroundColor: Colors.white,
-                      radius: 40,
-                      child: CircleAvatar(
-                        radius: 35,
-                        backgroundImage: AssetImage(
-                            'assets/img.png'
-                        ),
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:  Colors.grey.shade300,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade500,
+                            blurRadius: 1
+                          )
+                        ]
                       ),
-        
-                      backgroundColor: Colors.white,
-        
+
+                      child:  Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          const CircleAvatar(
+                            radius: 35,
+                            backgroundImage: AssetImage(
+                                'assets/img.png'
+                            ),
+                          ),
+
+                          Positioned(
+                            bottom: 5,
+                              right: -10,
+                              child: SvgPicture.asset("assets/cameraIcon.svg"))
+                        ],
+                      ),
                     ),
-                  )
-        
+                  ),
+
+
+
+
                 ],
               ),
         
@@ -81,7 +97,11 @@ class _UserProfileState extends State<UserProfile> {
                 width: double.infinity,
                 // height: SC.fromHeight(2),
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.grey.shade300
+                  ),
+                    gradient: const LinearGradient(
                       colors: [Color(0xFFFFFFFF), Color(0xFFFED957)], // define the colors you want in the gradient
                       begin: Alignment.centerLeft, // define the start point
                       end: Alignment.centerRight, // define the end point
@@ -91,13 +111,13 @@ class _UserProfileState extends State<UserProfile> {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 20,),
-                    Text('Personal Informaiton',style: TextStyle(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(22)),),
-                    SizedBox(height: 20,),
+                    const SizedBox(height: 20,),
+                    Text('Personal Informaiton',style: GoogleFonts.akshar(textStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(22))),),
+                    const SizedBox(height: 20,),
 
                     // FULL NAME //
                   CustomTextFieldContainer(
-                    hintText: 'Full Name',
+                    hintText: 'Full Name*',
                     height:  SC.fromHeight(16), // The height of the container
                     controller: myController,
                     validator: (value) {
@@ -111,7 +131,7 @@ class _UserProfileState extends State<UserProfile> {
 
                     // EMAIL ID //
                     CustomTextFieldContainer(
-                      hintText: 'Eail Id',
+                      hintText: 'Email Id*',
                       height:  SC.fromHeight(16), // The height of the container
                       controller: myController,
                       validator: (value) {
@@ -125,7 +145,7 @@ class _UserProfileState extends State<UserProfile> {
 
                     // MOBILE NUMBER //
                     CustomTextFieldContainer(
-                      hintText: 'Mobile Number',
+                      hintText: 'Mobile Number*',
                       height:  SC.fromHeight(16), // The height of the container
                       controller: myController,
                       validator: (value) {
@@ -138,7 +158,7 @@ class _UserProfileState extends State<UserProfile> {
 
                     // DESIGNATION //
                     CustomTextFieldContainer(
-                      hintText: 'Designation',
+                      hintText: 'Designation*',
                       height:  SC.fromHeight(16), // The height of the container
                       controller: myController,
                       validator: (value) {
@@ -150,7 +170,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
 
                     Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: CustomButton(text: 'SAVE', onPressed: () {
                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>LogoutPage()));
                       },),

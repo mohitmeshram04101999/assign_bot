@@ -13,7 +13,7 @@ class CustomTextFieldContainer extends StatelessWidget {
   static const double _borderWidth = 1.0;
   static const Color _backgroundColor = Colors.white;
   static const EdgeInsets _contentPadding = EdgeInsets.symmetric(horizontal: 10);
-  static const TextStyle _hintStyle = TextStyle(color: Color(0xFF9E9E9E)); // Use a hex color code for the hint text
+  static const TextStyle _hintStyle = TextStyle(color: Colors.black); // Use a hex color code for the hint text
   static const TextStyle _textStyle = TextStyle(color: Colors.black);
   static const TextInputType _keyboardType = TextInputType.text;
 

@@ -33,8 +33,8 @@ class SelectableContainer extends StatelessWidget {
           ],
           gradient: LinearGradient(
             colors: [
-              isSelected ? Color(0xFFF60205) : Colors.white,
-              isSelected ? Color(0xFFFFDE59) : Colors.white,
+              isSelected ?const  Color(0xFFF60205) : Colors.white,
+              isSelected ? const Color(0xFFFFDE59) : Colors.white,
             ],
           ),
           borderRadius: BorderRadius.circular(0),
@@ -99,7 +99,7 @@ class SelectableContainer2 extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: SC.fromWidth(20),
-                color: isSelected ? Colors.white : Colors.grey,
+                color: isSelected ? Colors.white : Colors.black,
               ),
             ),
           ),
