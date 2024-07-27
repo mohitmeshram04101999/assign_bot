@@ -146,6 +146,7 @@ import 'package:assignbot/pages/home_pages/home_page.dart';
 import 'package:assignbot/pages/logout/logout_page.dart';
 import 'package:assignbot/pages/user/user_edit_profile.dart';
 import 'package:assignbot/pages/user/user_profile.dart';
+import 'package:assignbot/widgets/customBotomNavigationBar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:animations/animations.dart';
@@ -165,10 +166,10 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
   int backPress = 0;
 
   final List<Widget> pages = [
-    HomePage(),
-    ContactPage(),
-    UserEditProfile(),
-    LogoutPage(),
+    const HomePage(),
+    const ContactPage(),
+    const UserEditProfile(),
+    const LogoutPage(),
 
   ];
 
@@ -194,7 +195,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
         if (backPress == 2) {
           return true;
         } else {
-          Timer(Duration(seconds: 1), () {
+          Timer(const Duration(seconds: 1), () {
             backPress = 0;
           });
         }
@@ -202,7 +203,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
       },
       child: Scaffold(
         body: PageTransitionSwitcher(
-          duration: Duration(milliseconds: 700),
+          duration:const Duration(milliseconds: 700),
           transitionBuilder: (Widget child, Animation<double> animation, Animation<double> secondaryAnimation) {
             return FadeThroughTransition(
               animation: animation,
@@ -213,64 +214,46 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
           child: pages[currentPage],
         ),
 
-        bottomNavigationBar: BottomAppBar(
+        bottomNavigationBar: Custombotomnavigationbar(
+          onTap: (n){
+            currentPage = n;
+            setState(() {
 
-          padding: EdgeInsets.only(top: 3),
-          color: Colors.white,
-          child: BottomAppBar(
-            clipBehavior: Clip.hardEdge,
-            padding: EdgeInsets.zero,
-            color: Colors.transparent,
-            shape: CircularNotchedRectangle(),
-            child: BottomNavigationBar(
-              backgroundColor: Colors.white,
-              iconSize: SC.from_width(22),
-              type: BottomNavigationBarType.fixed,
-              currentIndex: currentPage,
-              selectedItemColor: Color(0xFFF60205),
-              unselectedItemColor: Colors.grey,
-              selectedLabelStyle: TextStyle(color: Color(0xFFF60205)),
-              unselectedLabelStyle: TextStyle(color: Colors.black26),
-              onTap: (page) {
-                if (page != currentPage) {
-                  animateToPage(page);
-                }
-              },
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined),
-                  label: "Home",
-                ),
-                BottomNavigationBarItem(
-                  icon: Container(
-                    width: SC.from_width(23),
-                    height: SC.from_width(23),
-                    child: Image.asset(
-                      'assets/bottomnavigation/chat.png',
-                      color: currentPage == 1 ? Color(0xFFF60205) : Colors.grey,
-                    ),
-                  ),
-                  label: "Chat",
-                ),
-                BottomNavigationBarItem(
-                  icon: Container(
-                    width: SC.from_width(23),
-                    height: SC.from_width(23),
-                    child: Image.asset(
-                      'assets/profile.png',
-                      color: currentPage == 2 ? Color(0xFFF60205): Colors.grey,
-                    ),
-                  ),
-                  label: "User Profile",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.logout_outlined),
-                  label: "Log Out",
-                ),
-
-              ],
+            });
+          },
+          currentIndex: currentPage,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              label: "Home",
             ),
-          ),
+            BottomNavigationBarItem(
+              icon: Container(
+                width: SC.from_width(23),
+                child: Image.asset(
+                  'assets/bottomnavigation/chat.png',
+                  color: currentPage == 1 ? Color(0xFFF60205) : Colors.black,
+                ),
+
+              ),
+              label: "Chat ",
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                width: SC.from_width(23),
+                height: SC.from_width(23),
+                child: Image.asset(
+                  'assets/profile.png',
+                  color: currentPage == 2 ? Color(0xFFF60205): Colors.black,
+                ),
+              ),
+              label: "User Profile",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.logout_outlined),
+              label: "Log Out",
+            ),
+          ],
         ),
       ),
     );

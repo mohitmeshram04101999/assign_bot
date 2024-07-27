@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFieldDecoration extends StatelessWidget {
+  final Widget? icon;
+  final Widget? suffixIcon;
   final TextEditingController controller;
-  final Function() onSendMessage;
+  final Function()? onSendMessage;
 
   const CustomTextFieldDecoration({
+    this.suffixIcon,
+    this.icon,
     required this.controller,
-    required this.onSendMessage,
+    this.onSendMessage,
   });
 
   @override
@@ -23,7 +27,7 @@ class CustomTextFieldDecoration extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
-              offset: Offset(0, 3), // changes position of shadow
+              offset: const Offset(0, 3), // changes position of shadow
             ),
           ],
         ),
@@ -31,12 +35,14 @@ class CustomTextFieldDecoration extends StatelessWidget {
           maxLines: null,
           controller: controller,
           decoration: InputDecoration(
-            hintText: 'Type a message...',
-            hintStyle: TextStyle(color: Colors.grey.shade400),
+            suffixIcon: suffixIcon,
+            prefixIcon: icon,
+            hintText: 'Write your query.....',
+            hintStyle: const TextStyle(color: Colors.black),
             border: InputBorder.none, // Remove the border from the TextField itself
-            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           ),
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black, // Text color
           ),
           cursorColor: Colors.grey, // Cursor color

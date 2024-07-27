@@ -1,7 +1,9 @@
 import 'package:assignbot/component/dimension.dart';
+import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/widgets/selectable_container.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LogoutPage extends StatefulWidget {
   const LogoutPage({super.key});
@@ -20,8 +22,8 @@ class _LogoutPageState extends State<LogoutPage> {
 
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 28.0),
+        title:const  Padding(
+          padding: EdgeInsets.only(left: 28.0),
           child: Text(' Logout',style: TextStyle(fontWeight: FontWeight.w500),),
         ),
         backgroundColor: Color(0xFFF60205),
@@ -32,7 +34,7 @@ class _LogoutPageState extends State<LogoutPage> {
           child: Column(
             children: [
               SizedBox(height: SC.fromHeight(55),),
-              Center(child: Text('Are you sure you want to logout ?',style: TextStyle(fontSize: SC.fromWidth(20)),)),
+              Center(child: Text('Are you sure you want to logout ?',style: GoogleFonts.akshar(textStyle: TextStyle(fontSize: SC.fromWidth(20)),fontWeight: FontWeight.w500),)),
               SizedBox(height: SC.fromHeight(55),),
         
               Padding(

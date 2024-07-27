@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:assignbot/component/bottom_navigation_bar.dart';
+import 'package:assignbot/component/loder.dart';
 import 'package:assignbot/models/user_model.dart';
 import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/sharedpref/user_pref_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -17,13 +19,13 @@ class LoginApi extends GetxController{
 
 
 
-  Future<UserModel> userLogin() async{
+  Future<UserModel?> userLogin(final BuildContext context) async{
 
     UserPreference userPreference = UserPreference();
 
     final http.Response response;
 
-    final Url ='https://chat.satyakabir.com/chatify/api/admin-login';
+    const Url ='https://chat.satyakabir.com/chatify/api/admin-login';
 
 
     var bodydata ={
@@ -33,7 +35,10 @@ class LoginApi extends GetxController{
 
     var responseData = json.encode(bodydata);
 
-    var UrlParse = Uri.parse(Url);
+    final  UrlParse = Uri.parse(Url);
+
+    showDialog(barrierDismissible: false,context: context, builder: (context)=>const Loader());
+
 
       response = await http.post(
         UrlParse,
@@ -42,11 +47,15 @@ class LoginApi extends GetxController{
       "Content-Type":"application/json"
       }
     );
-    log(response.body);
 
-      final finalData = jsonDecode(response.body);
-      UserModel userModel = UserModel.fromJson(finalData);
-      if(finalData['success'] == true)
+
+      var _data = jsonDecode(response.body);
+
+    if(response.statusCode==200)
+      {
+        final finalData = jsonDecode(response.body);
+        UserModel userModel = UserModel.fromJson(finalData);
+        if(finalData['success'] == true)
         {
 
           Get.snackbar('', finalData['message']);
@@ -72,7 +81,18 @@ class LoginApi extends GetxController{
           _clearTextFields([emailCont.value, passCont.value]);
           Get.off(MyBottomNavigationBar());
         }
-      return userModel;
+        return userModel;
+      }
+
+    else
+      {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${_data["message"]}")));
+      }
+
+
+    Navigator.pop(context);
+
+
 
   }
 

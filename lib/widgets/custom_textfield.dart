@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 
 class CustomTextField extends StatefulWidget {
+  final bool? obSecure;
   final TextEditingController controller;
   final List<TextInputFormatter>? format;
   final TextInputType? textInputType;
@@ -17,6 +18,7 @@ class CustomTextField extends StatefulWidget {
 
   const CustomTextField({
     Key? key,
+    this.obSecure,
     this.format,
     this.maxLength,
     this.textInputType,
@@ -38,11 +40,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
 
-      minLines: 1,
-      maxLines: 10,
-
+      obscureText: widget.obSecure??false,
       inputFormatters: [
-
         ...?widget.format,
         ...?widget.inputFormatters,
         if (widget.maxLength != null) LengthLimitingTextInputFormatter(widget.maxLength),
@@ -59,7 +58,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         labelText: widget.labelText,
         labelStyle:     TextStyle(color:Colors.black,fontSize: SC.fromWidth(27)),
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
             vertical: 10,
             horizontal: 10),
         filled: true,
