@@ -166,7 +166,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
   int backPress = 0;
 
   final List<Widget> pages = [
-    const HomePage(),
+    // const HomePage(),
     const ContactPage(),
     const UserEditProfile(),
     const LogoutPage(),
@@ -223,10 +223,10 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
           },
           currentIndex: currentPage,
           items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: "Home",
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.home_outlined),
+            //   label: "Home",
+            // ),
             BottomNavigationBarItem(
               icon: Container(
                 width: SC.from_width(23),

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:assignbot/Mohit/notification.dart';
 import 'package:assignbot/component/dimension.dart';
 import 'package:assignbot/component/loder.dart';
 import 'package:assignbot/controller/chat_controllers/contact_api.dart';
@@ -49,7 +50,16 @@ class _ContactPageState extends State<ContactPage> {
     return DefaultTabController(length: 2, child: Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: () async {
         var user =await  UserPreference().getUser();
-        print(user.token);
+        var token = await NotificationService().getDeviceToken();
+        showDialog(context: context, builder: (context)=>AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Tocken "),
+              SelectableText("${token}"),
+            ],
+          ),
+        ));
 
 
       },),
@@ -75,15 +85,15 @@ class _ContactPageState extends State<ContactPage> {
         ],),
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 28.0),
+        title:const  Padding(
+          padding:  EdgeInsets.only(left: 28.0),
           child: Text('Chats', style: TextStyle(fontWeight: FontWeight.w500)),
         ),
         backgroundColor: const Color(0xFFF60205),
       ),
       body: TabBarView(
         children: [
-          NewChatTab(),
+          const NewChatTab(),
           RecentChatTab()
         ],
       ),
@@ -99,7 +109,7 @@ class NewChatTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: Provider.of<ContactController>(context,listen: false).getRequest(),
+        future: Provider.of<ContactController>(context,listen: false).getRequest(context),
         builder:(context,snap){
 
           return Consumer<ContactController>(builder: (a,p,c){
@@ -110,7 +120,7 @@ class NewChatTab extends StatelessWidget {
               }
             if(p.allRequest.isEmpty)
               {
-                return const Center(child: Text("Don't Have new Request"));
+                return const Center(child: Text("No Request",style: TextStyle(fontSize: 20)));
               }
 
             return ListView.builder(
@@ -139,7 +149,7 @@ class RequestTile extends StatelessWidget {
     return ListTile(
 
       onTap: (){
-        Provider.of<ContactController>(context,listen: false).acceptReq(request.id??0);
+        Provider.of<ContactController>(context,listen: false).acceptReq(request.id??0,context);
       },
 
       leading:   CircleAvatar(
@@ -147,7 +157,7 @@ class RequestTile extends StatelessWidget {
         child: const  Icon(Icons.person,color: Colors.red,),
       ),
 
-      title: Text(request.userName??""),
+      title: Text( "${request.userName} {${request.id}}"??""),
 
       subtitle: Text("${request.userEmail}"),
 
@@ -195,8 +205,8 @@ class RecentChatTab extends StatelessWidget {
                   children: [
                     ListTile(
                       onTap: () {
-                        _fetchMessageApi.fetchmessageapi(contact.id);
-                        Get.to(ChattingPage(contact: contact,userId: contact.id));
+                        _fetchMessageApi.fetchmessageapi(context,contact.id);
+                        Get.to(ChattingPage(userEmail: contact.email,userId: contact.id));
                       },
 
                       leading:CircleAvatar(

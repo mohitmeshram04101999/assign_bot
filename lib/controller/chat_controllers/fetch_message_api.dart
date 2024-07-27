@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:assignbot/controller/redirectfunction.dart';
 import 'package:assignbot/models/message_list_model.dart';
 import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/sharedpref/user_pref_model.dart';
@@ -12,7 +13,7 @@ class FetchMessageApi extends GetxController{
   Rx<MessageListModel>? messagemodel;
   RxList<Message> messages=<Message>[].obs;
 
-  Future<RxList<Message>?>fetchmessageapi (int id)async{
+  Future<RxList<Message>?>fetchmessageapi (BuildContext context,int id)async{
 
     UserPreference userPreference = UserPreference();
     UserPrefModel userData = await userPreference.getUser();
@@ -34,7 +35,12 @@ class FetchMessageApi extends GetxController{
         "Content-Type": "application/json"
       },
     );
-    
+
+
+    if(response.statusCode==401)
+      {
+        reDirect(context);
+      }
     print(response.body);
 
     var dataa = jsonDecode(response.body);
@@ -46,7 +52,7 @@ return messages;
   }
 
 
-  Future <void> sendMessage(int id,String message) async
+  Future <void> sendMessage(int id,String message,BuildContext context) async
   {
 
     UserPreference userPreference = UserPreference();
@@ -73,6 +79,11 @@ return messages;
     request.fields.addAll(data);
 
     var resp = await request.send();
+
+    if(resp.statusCode==401)
+      {
+        reDirect(context);
+      }
 
     var d = await  resp.stream.bytesToString();
     print(resp.statusCode);
@@ -101,7 +112,7 @@ class MessageController with ChangeNotifier
 
 
 
-  Future<void>fetchmessageapi (int id)async{
+  Future<void>fetchmessageapi (BuildContext context,int id)async{
 
     UserPreference userPreference = UserPreference();
     UserPrefModel userData = await userPreference.getUser();
@@ -124,6 +135,11 @@ class MessageController with ChangeNotifier
       },
     );
 
+    if(response.statusCode ==401)
+      {
+        reDirect(context);
+      }
+
 
 
     var dataa = jsonDecode(response.body);
@@ -136,7 +152,7 @@ class MessageController with ChangeNotifier
   }
 
 
-  Future <void> sendMessage(int id,String message) async
+  Future <void> sendMessage(BuildContext context,int id,String message) async
   {
 
     UserPreference userPreference = UserPreference();
@@ -164,6 +180,11 @@ class MessageController with ChangeNotifier
     request.fields.addAll(data);
 
     var resp = await request.send();
+
+    if(resp.statusCode==401)
+      {
+        reDirect(context);
+      }
 
     var d = await  resp.stream.bytesToString();
     var d2 = jsonDecode(d);

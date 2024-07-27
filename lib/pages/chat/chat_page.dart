@@ -25,9 +25,9 @@ import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 
 class ChattingPage extends StatefulWidget {
-  final Contact contact;
+  final String userEmail;
   final dynamic userId;
-  const ChattingPage({required this.contact,super.key,required this.userId});
+  const ChattingPage({required this.userEmail,super.key,required this.userId});
 
   @override
   State<ChattingPage> createState() => _ChattingPageState();
@@ -53,7 +53,7 @@ class _ChattingPageState extends State<ChattingPage> {
     String message = _messageController.text;
     _messageController.text="";
     if (message.isNotEmpty) {
-      chatController.sendMessage(widget.userId, message);
+      chatController.sendMessage(context,widget.userId, message);
     }
   }
 
@@ -235,7 +235,7 @@ class _ChattingPageState extends State<ChattingPage> {
         children: [
           Expanded(
             child: FutureBuilder(
-              future: chatController.fetchmessageapi(widget.userId),
+              future: chatController.fetchmessageapi(context,widget.userId),
               builder: (context, snapshot) {
 
                 return Consumer<MessageController>(builder: (a,p,c){
