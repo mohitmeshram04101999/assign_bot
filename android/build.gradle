@@ -12,13 +12,16 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(":app")
 }
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.0.2'
+    }
+}
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
-//
-//buildscripta{
-//    classpath 'com.android.tools.build:gradle:7.3.1'
-//    implementation 'androidx.window:window:1.0.0'
-//    implementation 'androidx.window:window-java:1.0.0'
-//}

@@ -60,8 +60,8 @@ dependencies:
   lottie: ^3.1.2
   firebase_core: ^2.32.0
   firebase_messaging: ^14.7.10
-  flutter_local_notifications: ^8.2.0
   app_settings: ^5.1.1
+  flutter_local_notifications: ^17.2.1+2
 
 
 
