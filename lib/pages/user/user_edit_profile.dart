@@ -185,63 +185,63 @@ class _UserEditProfileState extends State<UserEditProfile> {
               ),
               SizedBox(height: SC.fromHeight(20),),
 
-              Container(
-                width: double.infinity,
-                // height: SC.fromHeight(2),
-                decoration:  AppConstante.decoration,
-                child: Column(
-                  children: [
-
-
-                    const SizedBox(height: 20,),
-                    Text('Help & Logout',style: GoogleFonts.akshar(fontWeight: FontWeight.w600,fontSize: SC.fromWidth(20)),),
-
-                    const SizedBox(height: 10,),
-
-                    Padding(
-                      padding: const  EdgeInsets.all(10),
-                      child: InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const NeedHelp()));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            boxShadow: const  [
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 3,
-                                offset: Offset(0,2)
-                              ),
-                            ],
-
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          height: SC.fromHeight(16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('NEED HELP',
-                                style: GoogleFonts.akshar(fontWeight: FontWeight.w600,fontSize: SC.fromWidth(21),color: const Color(0xFFF60807)),),
-                              const SizedBox(width: 5,),
-                              const Icon(Icons.arrow_forward,color: Color(0xFFF60807),)
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: CustomButton(text: 'LOGOUT', onPressed: () {
-                        _showLogoutDialog();
-                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>LogoutPage()));
-                      },),
-                    ),
-
-                  ],
-                ),
-              ),
+              // Container(
+              //   width: double.infinity,
+              //   // height: SC.fromHeight(2),
+              //   decoration:  AppConstante.decoration,
+              //   child: Column(
+              //     children: [
+              //
+              //
+              //       const SizedBox(height: 20,),
+              //       Text('Help & Logout',style: GoogleFonts.akshar(fontWeight: FontWeight.w600,fontSize: SC.fromWidth(20)),),
+              //
+              //       const SizedBox(height: 10,),
+              //
+              //       Padding(
+              //         padding: const  EdgeInsets.all(10),
+              //         child: InkWell(
+              //           onTap: (){
+              //             Navigator.push(context, MaterialPageRoute(builder: (context)=>const NeedHelp()));
+              //           },
+              //           child: Container(
+              //             decoration: BoxDecoration(
+              //               boxShadow: const  [
+              //                 BoxShadow(
+              //                   color: Colors.grey,
+              //                   blurRadius: 3,
+              //                   offset: Offset(0,2)
+              //                 ),
+              //               ],
+              //
+              //               color: Colors.white,
+              //               borderRadius: BorderRadius.circular(10),
+              //             ),
+              //             height: SC.fromHeight(16),
+              //             child: Row(
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               children: [
+              //                 Text('NEED HELP',
+              //                   style: GoogleFonts.akshar(fontWeight: FontWeight.w600,fontSize: SC.fromWidth(21),color: const Color(0xFFF60807)),),
+              //                 const SizedBox(width: 5,),
+              //                 const Icon(Icons.arrow_forward,color: Color(0xFFF60807),)
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //
+              //       Padding(
+              //         padding: const EdgeInsets.all(10),
+              //         child: CustomButton(text: 'LOGOUT', onPressed: () {
+              //           _showLogoutDialog();
+              //           // Navigator.push(context, MaterialPageRoute(builder: (context)=>LogoutPage()));
+              //         },),
+              //       ),
+              //
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
