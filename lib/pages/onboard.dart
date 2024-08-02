@@ -14,9 +14,6 @@ class OnboardPage extends StatefulWidget {
 }
 
 class _OnboardPageState extends State<OnboardPage> {
-
-  typedef =
-
   @override
   Widget build(BuildContext context) {
 
