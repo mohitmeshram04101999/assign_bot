@@ -1,5 +1,6 @@
 import 'package:assignbot/component/constent.dart';
 import 'package:assignbot/component/dimension.dart';
+import 'package:assignbot/sharedpref/user_pref_model.dart';
 import 'package:assignbot/widgets/custom_button.dart';
 import 'package:assignbot/widgets/custom_textfield_container.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-
+UserPrefModel userPrefModel = UserPrefModel();
   TextEditingController  myController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class _UserProfileState extends State<UserProfile> {
                     decoration: AppConstante.decoration,
                     child: Center(child: Padding(
                       padding: const EdgeInsets.only(top: 18.0),
-                      child: Text('Anuradha Mishra',style: GoogleFonts.akshar(textStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(25))),),
+                      child: Text('${userPrefModel.username}',style: GoogleFonts.akshar(textStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: SC.fromWidth(25))),),
                     ),),
                   ),
 
