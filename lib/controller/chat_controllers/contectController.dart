@@ -6,6 +6,7 @@ import 'dart:convert';
 
 
 import 'package:assignbot/component/loder.dart';
+import 'package:assignbot/controller/chat_controllers/contact_api.dart';
 import 'package:assignbot/controller/redirectfunction.dart';
 
 import 'package:assignbot/models/contactRequestModel.dart';
@@ -82,8 +83,11 @@ class ContactController with ChangeNotifier
       {
         var decode = jsonDecode(resp.body);
         var userdata  = decode["data"];
+        final contactApi = Get.put(ContactApi());
+        final contacts = contactApi.userContactModel?.value.contacts ?? [];
+        final chattingContactData= contacts.firstWhere((element) => element.id==userdata["to_id"]);
         Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>ChattingPage(userEmail:"New User @gmail.com" , userId: userdata["to_id"])));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>ChattingPage(userEmail:chattingContactData.email , userId: chattingContactData.id, userName: chattingContactData.name,)));
 
       }
     else

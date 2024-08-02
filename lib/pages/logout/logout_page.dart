@@ -1,5 +1,6 @@
 import 'package:assignbot/component/dimension.dart';
 import 'package:assignbot/sharedpref/shared_pref.dart';
+import 'package:assignbot/sharedpref/user_pref_model.dart';
 import 'package:assignbot/widgets/selectable_container.dart';
 
 import 'package:flutter/material.dart';
@@ -55,10 +56,11 @@ class _LogoutPageState extends State<LogoutPage> {
                   SelectableContainer2(
                     text: 'YES',
                     isSelected: isNewChatSelected,
-                    onTap: () {
+                    onTap: () async{
                       setState(() {
                         isNewChatSelected = true;
                       });
+                      await UserPreference().logOut(context);
                     },
                   ),
                   SelectableContainer2(

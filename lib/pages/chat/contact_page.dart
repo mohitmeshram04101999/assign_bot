@@ -157,7 +157,7 @@ class RequestTile extends StatelessWidget {
         child: const  Icon(Icons.person,color: Colors.red,),
       ),
 
-      title: Text( "${request.userName} {${request.id}}"??""),
+      title: Text( "${request.userName}"??""),
 
       subtitle: Text("${request.userEmail}"),
 
@@ -206,7 +206,7 @@ class RecentChatTab extends StatelessWidget {
                     ListTile(
                       onTap: () {
                         _fetchMessageApi.fetchmessageapi(context,contact.id);
-                        Get.to(ChattingPage(userEmail: contact.email,userId: contact.id));
+                        Get.to(ChattingPage(userEmail: contact.email,userId: contact.id, userName: contact.name,));
                       },
 
                       leading:CircleAvatar(
