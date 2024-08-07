@@ -84,7 +84,8 @@ class ContactController with ChangeNotifier
         var userdata  = decode["data"];
         Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context)=>ChattingPage(userEmail:"New User @gmail.com" , userId: userdata["to_id"])));
-
+        allRequest.removeWhere((e)=>id==e.id);
+        notifyListeners();
       }
     else
       {
