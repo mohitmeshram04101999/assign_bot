@@ -232,7 +232,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
                 width: SC.from_width(23),
                 child: Image.asset(
                   'assets/bottomnavigation/chat.png',
-                  color: currentPage == 1 ? Color(0xFFF60205) : Colors.black,
+                  color: currentPage == 0 ? Color(0xFFF60205) : Colors.black,
                 ),
 
               ),
@@ -244,13 +244,13 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
                 height: SC.from_width(23),
                 child: Image.asset(
                   'assets/profile.png',
-                  color: currentPage == 2 ? Color(0xFFF60205): Colors.black,
+                  color: currentPage == 1 ? Color(0xFFF60205): Colors.black,
                 ),
               ),
               label: "User Profile",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.logout_outlined),
+              icon: Icon(Icons.logout_outlined,color:  currentPage == 2 ? Color(0xFFF60205): Colors.black,),
               label: "Log Out",
             ),
           ],
