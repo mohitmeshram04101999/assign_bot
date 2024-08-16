@@ -70,6 +70,7 @@ class LoginApi extends GetxController{
           UserPrefModel userPrefModel = UserPrefModel(
             token: token,
             userId: userId,
+            username: finalData['data']['name'],
             isLogin: true,
           );
 
@@ -79,7 +80,7 @@ class LoginApi extends GetxController{
           // Retrieve user data after saving
           UserPrefModel userData = await userPreference.getUser();
 
-          print(userData);
+          print(userData.toJson());
           print(userData.token);
 
           Get.snackbar('', finalData['message'].toString());

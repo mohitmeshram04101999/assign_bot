@@ -218,7 +218,7 @@ class RecentChatTab extends StatelessWidget {
                     ListTile(
                       onTap: () {
                         _fetchMessageApi.fetchmessageapi(context,contact.id);
-                        Get.to(ChattingPage(userEmail: contact.email,userId: contact.id));
+                        Get.to(ChattingPage(userEmail: contact.email,userId: contact.id, userName: contact.name,));
                       },
 
                       leading:CircleAvatar(

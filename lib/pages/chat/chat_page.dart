@@ -27,7 +27,8 @@ import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 class ChattingPage extends StatefulWidget {
   final String userEmail;
   final dynamic userId;
-  const ChattingPage({required this.userEmail,super.key,required this.userId});
+  final String userName;
+  const ChattingPage({required this.userEmail,super.key,required this.userId,required this.userName});
 
   @override
   State<ChattingPage> createState() => _ChattingPageState();
@@ -222,11 +223,10 @@ class _ChattingPageState extends State<ChattingPage> {
         automaticallyImplyLeading: false,
         title:  Padding(
           padding: const EdgeInsets.only(left: 38.0),
-          child: Text(
-            'Chat ${widget.userId}',
-            // '${widget.contact.email??""}',
-            style:const  TextStyle(fontWeight: FontWeight.w500),
-          ),
+          child: ListTile(
+            title: Text(widget.userName, style:const TextStyle(fontWeight: FontWeight.w500, color: Colors.white)),
+            subtitle: Text(widget.userEmail, style:const TextStyle(fontWeight: FontWeight.w500, color: Colors.white)),
+          )
         ),
         backgroundColor: const Color(0xFFF60205),
       ),
