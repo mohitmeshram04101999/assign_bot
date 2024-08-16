@@ -108,30 +108,42 @@ class NewChatTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Provider.of<ContactController>(context,listen: false).getRequest(context),
-        builder:(context,snap){
+    return RefreshIndicator(
+      color: Colors.red,
+      onRefresh:()=> Provider.of<ContactController>(context,listen: false).getRequest(context),
+      child: FutureBuilder(
+          future: Provider.of<ContactController>(context,listen: false).getRequest(context),
+          builder:(context,snap){
 
-          return Consumer<ContactController>(builder: (a,p,c){
-            bool loding = snap.connectionState==ConnectionState.waiting;
-            if( loding && p.allRequest.isNotEmpty)
-              {
-                return const Loader();
-              }
-            if(p.allRequest.isEmpty)
-              {
-                return const Center(child: Text("No Request",style: TextStyle(fontSize: 20)));
-              }
+            return Consumer<ContactController>(builder: (a,p,c){
+              bool loding = snap.connectionState==ConnectionState.waiting;
+              if( loding && p.allRequest.isNotEmpty)
+                {
+                  return const Loader();
+                }
+              if(p.allRequest.isEmpty)
+                {
+                  return SizedBox.expand(child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Center(child: Text("No Request",style: TextStyle(fontSize: 20))),
+                      ElevatedButton(onPressed: (){
+                        p.getRequest(context);
+                      }, child: Text("Refresh"))
+                    ],
+                  ));
+                }
 
-            return ListView.builder(
-              itemCount: p.allRequest.length,
-              itemBuilder: (context,i){
-                return  RequestTile(request: p.allRequest[i]);
-              },
-            );
+              return ListView.builder(
+                itemCount: p.allRequest.length,
+                itemBuilder: (context,i){
+                  return  RequestTile(request: p.allRequest[i]);
+                },
+              );
 
-          });
-        }
+            });
+          }
+      ),
     );
   }
 

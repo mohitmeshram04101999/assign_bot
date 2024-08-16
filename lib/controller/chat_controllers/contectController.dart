@@ -87,7 +87,9 @@ class ContactController with ChangeNotifier
         final contacts = contactApi.userContactModel?.value.contacts ?? [];
         final chattingContactData= contacts.firstWhere((element) => element.id==userdata["to_id"]);
         Navigator.pop(context);
+
         Navigator.push(context, MaterialPageRoute(builder: (context)=>ChattingPage(userEmail:chattingContactData.email , userId: chattingContactData.id, userName: chattingContactData.name,)));
+
 
       }
     else

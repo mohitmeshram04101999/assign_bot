@@ -160,7 +160,7 @@ class _ChattingPageState extends State<ChattingPage> {
     );
 
     await pusher.subscribe(channelName: "${user.userId}_${widget.userId}");
-    print("${user.userId}_${widget.userId}");
+
     await pusher.connect();
 
 
