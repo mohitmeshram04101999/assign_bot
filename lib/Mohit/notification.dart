@@ -44,10 +44,13 @@ class NotificationService {
     log('Received background notification response: $notification');
   }
 
+
+
   Future<void> showNotification({
     int id = 0,
     RemoteMessage? message,
   }) async {
+
     print('Showing notification: $id,');
     await notificationPlugin.show(
       id,
@@ -56,6 +59,8 @@ class NotificationService {
       await notificationDetails(),
       payload: message.data.toString(),
     );
+
+
   }
 
   Future<NotificationDetails> notificationDetails() async {

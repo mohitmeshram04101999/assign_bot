@@ -340,25 +340,25 @@ class _ChattingPageState extends State<ChattingPage> {
                       ),
 
 
-                      Container(
-                        margin:const  EdgeInsets.only(left: 10),
-                        decoration: BoxDecoration(
-                          color:const  Color(0xFFFED957),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 1,
-                              offset: const Offset(0, 1),
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        width: 40,
-                        height: 40,
-                        child: Center(
-                          child: InkWell(
-                            onTap: _sendMessage,
+                      InkWell(
+                        onTap:_sendMessage ,
+                        child: Container(
+                          margin:const  EdgeInsets.only(left: 10),
+                          decoration: BoxDecoration(
+                            color:const  Color(0xFFFED957),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          width: 40,
+                          height: 40,
+                          child: Center(
                             child: const Icon(
                               Icons.send,
                               color: Colors.white,
