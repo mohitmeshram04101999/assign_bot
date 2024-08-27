@@ -1,7 +1,7 @@
 
 import 'dart:developer';
-
 import 'package:assignbot/Mohit/notification.dart';
+import 'package:assignbot/component/background_service.dart';
 import 'package:assignbot/component/bottom_navigation_bar.dart';
 import 'package:assignbot/component/const.dart';
 import 'package:assignbot/component/dimension.dart';
@@ -16,9 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
-
 import 'controller/chat_controllers/fetch_message_api.dart';
-
 
 // Define the top-level function for handling background messages
 @pragma('vm:entry-point')
@@ -32,6 +30,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeService();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -70,6 +70,7 @@ notificationService.getDeviceToken();
     child: const MyApp(),
   ));
 }
+
 
 
 

@@ -10,6 +10,8 @@ class UserPreference{
   Future<bool> saveUser (UserPrefModel responseModal)async{
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setString('token', responseModal.token.toString());
+    sp.setString('email', responseModal.email.toString());
+    sp.setString('phone', responseModal.phone.toString());
     sp.setInt('userId', responseModal.userId!);
     sp.setString('username', responseModal.username.toString());
     sp.setString('userType',responseModal.userType.toString());
@@ -28,17 +30,24 @@ class UserPreference{
 
 
   Future<UserPrefModel> getUser()async{
+
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token = sp.getString("token");
+    String? email = sp.getString("email");
+    String? phone = sp.getString("phone");
     int? userId = sp.getInt("userId");
     String? userType = sp.getString("userType");
     bool? isLogin = sp.getBool("isLogin");
     String? username = sp.getString("username");
+
 Logger().w('User data fetched from SharedPreferences: $token, $userId, $isLogin, $username'); // Debug log
+
     return UserPrefModel(
       token: token,
+      email: email,
       isLogin: isLogin,
       userId: userId,
+        phone: phone,
       userType:userType,
       username: username
 

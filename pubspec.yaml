@@ -44,9 +44,10 @@ dependencies:
   swipe_to: ^1.0.6
   shared_preferences: ^2.0.13
   file_picker: ^8.0.6
-
+  flutter_background_service: ^5.0.7
   http: ^1.2.2
   timeago: ^3.7.0
+  flutter_background_service_android: ^6.2.4
 
 
 

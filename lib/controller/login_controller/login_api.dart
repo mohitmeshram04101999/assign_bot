@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:assignbot/component/bottom_navigation_bar.dart';
 import 'package:assignbot/component/loder.dart';
@@ -12,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class LoginApi extends GetxController{
-
 
   final emailCont = TextEditingController().obs;
   final passCont = TextEditingController().obs;
@@ -58,13 +56,18 @@ class LoginApi extends GetxController{
         if(finalData['success'] == true)
         {
 
+          print(finalData);
           Get.snackbar('', finalData['message']);
           var token = finalData['data']['token'];
           var userId = finalData['data']['id'];
+          var phone = finalData['data']['phone'];
+          var email = finalData['data']['email'];
 
           UserPrefModel userPrefModel = UserPrefModel(
             token: token,
             userId: userId,
+            phone: phone,
+            email: email,
             username: finalData['data']['name'],
             isLogin: true,
           );
