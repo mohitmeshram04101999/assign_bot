@@ -41,6 +41,7 @@ class _ContactPageState extends State<ContactPage> {
     super.initState();
     final contactApi = Get.put(ContactApi()); // Use Get.find() to retrieve the instance
     fetchContactsFuture = contactApi.fetchContactApi();
+
   }
 
   @override
@@ -161,7 +162,7 @@ class RequestTile extends StatelessWidget {
     return ListTile(
 
       onTap: (){
-        Provider.of<ContactController>(context,listen: false).acceptReq(request.id??0,context);
+        Provider.of<ContactController>(context,listen: false).acceptReq(request,context);
       },
 
       leading:   CircleAvatar(

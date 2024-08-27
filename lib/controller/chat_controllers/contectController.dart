@@ -3,6 +3,7 @@
 
 
 import 'dart:convert';
+import 'dart:math';
 
 
 import 'package:assignbot/component/loder.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 class ContactController with ChangeNotifier
 {
@@ -55,49 +57,84 @@ class ContactController with ChangeNotifier
        print(resp.body);
       }
 
+    allRequest.forEach((e){
+      Logger().e(e.toJson());
+    });
     notifyListeners();
 
   }
 
 
 
-  Future <void> acceptReq(int id,BuildContext context) async
+  Future <void> acceptReq(Request request,BuildContext context) async
   {
-    String uri = "https://chat.satyakabir.com/chatify/api/accept-request?id=$id";
 
-    showDialog(context: context, builder: (context)=>const Loader());
+    Logger().e("Execting error");
 
-    UserPrefModel user = await UserPreference().getUser();
-    var head =  {
-      "Authorization": 'Bearer ${user.token}' ,
-    };
+    await showDialog(context: context,barrierDismissible: false, builder: (context)=>WillPopScope(
+      onWillPop: ()async{
+        return false;
+      },
+      child: AlertDialog(
 
+        title: Text("Accept chat request from ${request.userName}"),
 
-    var resp =  await http.get(Uri.parse(uri),headers: head);
-
-    if(resp.statusCode==401)
-      {
-        reDirect(context);
-      }
-    if(resp.statusCode==200)
-      {
-        var decode = jsonDecode(resp.body);
-        var userdata  = decode["data"];
-        final contactApi = Get.put(ContactApi());
-        final contacts = contactApi.userContactModel?.value.contacts ?? [];
-        final chattingContactData= contacts.firstWhere((element) => element.id==userdata["to_id"]);
-        Navigator.pop(context);
-
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>ChattingPage(userEmail:chattingContactData.email , userId: chattingContactData.id, userName: chattingContactData.name,)));
+        actions: [
+          ElevatedButton(onPressed: (){
+            Navigator.pop(context);
+          }, child: Text("Cancle")),
+          ElevatedButton(onPressed: ()async{
 
 
-      }
-    else
-      {
-        print(resp.statusCode);
-        print(resp.body);
-        Navigator.pop(context);
-      }
+            String uri = "https://chat.satyakabir.com/chatify/api/accept-request?id=${request.id}";
+
+
+
+            showDialog(context: context, builder: (context)=>const Loader());
+
+            UserPrefModel user = await UserPreference().getUser();
+            var head =  {
+              "Authorization": 'Bearer ${user.token}' ,
+            };
+
+
+            var resp =  await http.get(Uri.parse(uri),headers: head);
+            Logger().e("${resp.statusCode}  asdf\n${resp.body}");
+            if(resp.statusCode==401)
+            {
+              reDirect(context);
+            }
+            if(resp.statusCode==200)
+            {
+
+
+              var decode = jsonDecode(resp.body);
+              var userdata  = decode["data"];
+              final contactApi = Get.put(ContactApi());
+              final contacts = contactApi.userContactModel?.value.contacts ?? [];
+
+              // final chattingContactData= contacts.firstWhere((element) => element.id==userdata["to_id"]);
+              Navigator.pop(context);
+              Navigator.pop(context);
+
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>ChattingPage(userEmail:request.userEmail??"" , userId:userdata["to_id"], userName: request.userName??"",)));
+              getRequest(context);
+            }
+            else
+            {
+              print(resp.statusCode);
+              print(resp.body);
+              Navigator.pop(context);
+            }
+
+
+          }, child: Text("Accept")),
+        ],
+
+      ),
+    ));
+
+
 
 
 

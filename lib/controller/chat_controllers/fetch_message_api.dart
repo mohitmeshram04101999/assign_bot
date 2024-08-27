@@ -7,6 +7,7 @@ import 'package:assignbot/sharedpref/user_pref_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
+import 'package:logger/logger.dart';
 
 class FetchMessageApi extends GetxController{
 
@@ -180,6 +181,8 @@ class MessageController with ChangeNotifier
     request.fields.addAll(data);
 
     var resp = await request.send();
+    Logger().e(resp.statusCode);
+
 
     if(resp.statusCode==401)
       {
@@ -189,7 +192,7 @@ class MessageController with ChangeNotifier
     var d = await  resp.stream.bytesToString();
     var d2 = jsonDecode(d);
     var dataDecode =  d2["message"];
-    print(dataDecode);
+    Logger().e(dataDecode);
     // var nm  = Message.fromJson(dataDecode);
 
 
