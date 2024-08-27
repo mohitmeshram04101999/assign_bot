@@ -153,14 +153,14 @@ class _ChattingPageState extends State<ChattingPage> {
     var user = await UserPreference().getUser();
 
     await pusher.init(
-      apiKey: "49531b3cef3b6772a349",
+      apiKey: "5a938f7a30104f034cb5",
       cluster: "ap2",
       onSubscriptionSucceeded:onSub,
       onEvent: onEevent,
     );
 
     await pusher.subscribe(channelName: "${user.userId}_${widget.userId}");
-    print("${user.userId}_${widget.userId}");
+
     await pusher.connect();
 
 
@@ -205,20 +205,7 @@ class _ChattingPageState extends State<ChattingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 18.0),
-            child: GestureDetector(
-              onTap: () {
-                // _showLogoutDialog();
-              },
-              child:  Container(
-                width: SC.fromContextWidth(context, 11),
-                child: Image.asset('assets/log.png'),
-              ),
-            ),
-          )
-        ],
+          
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title:  Padding(
@@ -340,25 +327,25 @@ class _ChattingPageState extends State<ChattingPage> {
                       ),
 
 
-                      Container(
-                        margin:const  EdgeInsets.only(left: 10),
-                        decoration: BoxDecoration(
-                          color:const  Color(0xFFFED957),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 1,
-                              offset: const Offset(0, 1),
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        width: 40,
-                        height: 40,
-                        child: Center(
-                          child: InkWell(
-                            onTap: _sendMessage,
+                      InkWell(
+                        onTap:_sendMessage ,
+                        child: Container(
+                          margin:const  EdgeInsets.only(left: 10),
+                          decoration: BoxDecoration(
+                            color:const  Color(0xFFFED957),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          width: 40,
+                          height: 40,
+                          child: Center(
                             child: const Icon(
                               Icons.send,
                               color: Colors.white,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:assignbot/Mohit/notification.dart';
 import 'package:assignbot/component/bottom_navigation_bar.dart';
 import 'package:assignbot/component/loder.dart';
 import 'package:assignbot/models/user_model.dart';
@@ -26,9 +27,13 @@ class LoginApi extends GetxController{
     const Url ='https://chat.satyakabir.com/chatify/api/admin-login';
 
 
+    var _token = await NotificationService().getDeviceToken();
+
+
     var bodydata ={
       'email' : emailCont.value.text,
-      'password': passCont.value.text
+      'password': passCont.value.text,
+      'fcm_token': _token,
     };
 
     var responseData = json.encode(bodydata);
@@ -83,7 +88,7 @@ class LoginApi extends GetxController{
 
           Get.snackbar('', finalData['message'].toString());
           _clearTextFields([emailCont.value, passCont.value]);
-          Get.off(MyBottomNavigationBar());
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c)=>MyBottomNavigationBar()), (route) => false,);
         }
         return userModel;
       }

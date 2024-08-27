@@ -1,7 +1,7 @@
 
 import 'dart:developer';
+
 import 'package:assignbot/Mohit/notification.dart';
-import 'package:assignbot/component/background_service.dart';
 import 'package:assignbot/component/bottom_navigation_bar.dart';
 import 'package:assignbot/component/const.dart';
 import 'package:assignbot/component/dimension.dart';
@@ -16,7 +16,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
+
 import 'controller/chat_controllers/fetch_message_api.dart';
+
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 // Define the top-level function for handling background messages
 @pragma('vm:entry-point')
@@ -29,38 +33,13 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await initializeService();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-FlutterLocalNotificationsPlugin notificationPlugin = FlutterLocalNotificationsPlugin();
-  final NotificationService notificationService = NotificationService();
-  const AndroidInitializationSettings initializationAndroidSettings = AndroidInitializationSettings('p');
-
-  const InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationAndroidSettings,
-  );
-
-  await notificationPlugin.initialize(
-    initializationSettings,
-    onDidReceiveNotificationResponse: (id) async {
-      log('Received notification response: $id');
-    },
-    onDidReceiveBackgroundNotificationResponse: backgroundNotificationResponseHandler,
-  );
-notificationService.getDeviceToken();
-  // Assign the top-level background message handler
-  FirebaseMessaging.onBackgroundMessage((message) {
-    log('Handling a background message: ${message.messageId}');
-    return firebaseMessagingBackgroundHandler(message);
-  },);
-
-  FirebaseMessaging.onMessage.listen((message) {
-    log('Received message: $message');
-    notificationService.showNotification(message: message);
-  });
 
   runApp(MultiProvider(
     providers: [
@@ -70,7 +49,6 @@ notificationService.getDeviceToken();
     child: const MyApp(),
   ));
 }
-
 
 
 
@@ -89,7 +67,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     getUser();
-    // setNotification();
+    setListenerNotification(context);
     super.initState();
   }
   getUser()async{
@@ -105,6 +83,29 @@ class _MyAppState extends State<MyApp> {
 // log(user!.token.toString());
     SC.getScreen(context);
     return GetMaterialApp(
+
+      theme: ThemeData(
+
+
+        //elevated them
+        elevatedButtonTheme: ElevatedButtonThemeData(
+
+          style: ButtonStyle(
+
+            foregroundColor: MaterialStateProperty.resolveWith((s)=>Colors.white),
+
+            textStyle: MaterialStateProperty.resolveWith((s)=>TextStyle(color: Colors.white)) ,
+            backgroundColor: MaterialStateProperty.resolveWith((s)=>Colors.red),
+
+            shape: MaterialStateProperty.resolveWith((s)=>RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+            )),
+          )
+
+        )
+      ),
+
+      navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         home:user?.token!=null&&user?.token!=''?MyBottomNavigationBar(): const OnboardPage(),
              );

@@ -41,6 +41,7 @@ class _ContactPageState extends State<ContactPage> {
     super.initState();
     final contactApi = Get.put(ContactApi()); // Use Get.find() to retrieve the instance
     fetchContactsFuture = contactApi.fetchContactApi();
+
   }
 
   @override
@@ -48,21 +49,7 @@ class _ContactPageState extends State<ContactPage> {
 
 
     return DefaultTabController(length: 2, child: Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        var user =await  UserPreference().getUser();
-        var token = await NotificationService().getDeviceToken();
-        showDialog(context: context, builder: (context)=>AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Tocken "),
-              SelectableText("${token}"),
-            ],
-          ),
-        ));
 
-
-      },),
       appBar: AppBar(
 
         bottom:  TabBar(
@@ -108,30 +95,42 @@ class NewChatTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Provider.of<ContactController>(context,listen: false).getRequest(context),
-        builder:(context,snap){
+    return RefreshIndicator(
+      color: Colors.red,
+      onRefresh:()=> Provider.of<ContactController>(context,listen: false).getRequest(context),
+      child: FutureBuilder(
+          future: Provider.of<ContactController>(context,listen: false).getRequest(context),
+          builder:(context,snap){
 
-          return Consumer<ContactController>(builder: (a,p,c){
-            bool loding = snap.connectionState==ConnectionState.waiting;
-            if( loding && p.allRequest.isNotEmpty)
-              {
-                return const Loader();
-              }
-            if(p.allRequest.isEmpty)
-              {
-                return const Center(child: Text("No Request",style: TextStyle(fontSize: 20)));
-              }
+            return Consumer<ContactController>(builder: (a,p,c){
+              bool loding = snap.connectionState==ConnectionState.waiting;
+              if( loding && p.allRequest.isNotEmpty)
+                {
+                  return const Loader();
+                }
+              if(p.allRequest.isEmpty)
+                {
+                  return SizedBox.expand(child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Center(child: Text("No Request",style: TextStyle(fontSize: 20))),
+                      ElevatedButton(onPressed: (){
+                        p.getRequest(context);
+                      }, child: Text("Refresh"))
+                    ],
+                  ));
+                }
 
-            return ListView.builder(
-              itemCount: p.allRequest.length,
-              itemBuilder: (context,i){
-                return  RequestTile(request: p.allRequest[i]);
-              },
-            );
+              return ListView.builder(
+                itemCount: p.allRequest.length,
+                itemBuilder: (context,i){
+                  return  RequestTile(request: p.allRequest[i]);
+                },
+              );
 
-          });
-        }
+            });
+          }
+      ),
     );
   }
 
@@ -149,7 +148,7 @@ class RequestTile extends StatelessWidget {
     return ListTile(
 
       onTap: (){
-        Provider.of<ContactController>(context,listen: false).acceptReq(request.id??0,context);
+        Provider.of<ContactController>(context,listen: false).acceptReq(request,context);
       },
 
       leading:   CircleAvatar(

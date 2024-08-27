@@ -1,13 +1,9 @@
 import 'package:assignbot/component/dimension.dart';
 import 'package:assignbot/controller/login_controller/login_api.dart';
 import 'package:assignbot/pages/login_pages/forgot_password.dart';
-import 'package:assignbot/pages/login_pages/signup_page.dart';
 import 'package:assignbot/widgets/custom_appbar.dart';
 import 'package:assignbot/widgets/custom_button.dart';
-import 'package:assignbot/widgets/custom_dropdown.dart';
-import 'package:assignbot/widgets/custom_rich_text.dart';
 import 'package:assignbot/widgets/custom_textfield.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

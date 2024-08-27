@@ -291,12 +291,29 @@ class UserEditProfile extends StatefulWidget {
 
 class _UserEditProfileState extends State<UserEditProfile> {
   UserPrefModel? userPrefModel;
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
   final TextEditingController designationController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    getUserData();
+  }
 
+  getUserData() async {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) async {
+      userPrefModel = await UserPreference().getUser();
+      Logger().i(userPrefModel?.toJson());
+
+      setState(() {
+        fullNameController.text = userPrefModel?.username ?? '';
+        emailController.text = '';
+        mobileController.text =  '';
+        designationController.text =  '';
+      });
+    });
   }
 
   @override
@@ -307,7 +324,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
         automaticallyImplyLeading: false,
         title: const Padding(
           padding: EdgeInsets.only(left: 28.0),
-          child: Text('User Profile', style: TextStyle(fontWeight: FontWeight.w500)),
+          child: Text(' User Profile', style: TextStyle(fontWeight: FontWeight.w500)),
         ),
         backgroundColor: const Color(0xFFF60205),
       ),
@@ -528,6 +545,9 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
   @override
   void dispose() {
+    fullNameController.dispose();
+    emailController.dispose();
+    mobileController.dispose();
     designationController.dispose();
     super.dispose();
   }
