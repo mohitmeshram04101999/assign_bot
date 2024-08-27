@@ -153,7 +153,7 @@ class _ChattingPageState extends State<ChattingPage> {
     var user = await UserPreference().getUser();
 
     await pusher.init(
-      apiKey: "49531b3cef3b6772a349",
+      apiKey: "5a938f7a30104f034cb5",
       cluster: "ap2",
       onSubscriptionSucceeded:onSub,
       onEvent: onEevent,
