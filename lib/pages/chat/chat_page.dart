@@ -205,20 +205,7 @@ class _ChattingPageState extends State<ChattingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 18.0),
-            child: GestureDetector(
-              onTap: () {
-                // _showLogoutDialog();
-              },
-              child:  Container(
-                width: SC.fromContextWidth(context, 11),
-                child: Image.asset('assets/log.png'),
-              ),
-            ),
-          )
-        ],
+          
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title:  Padding(

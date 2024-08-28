@@ -109,80 +109,80 @@ class _UserEditProfileState extends State<UserEditProfile> {
                 ],
               ),
               SizedBox(height: SC.fromHeight(20)),
-              Container(
-                width: double.infinity,
-                decoration: AppConstante.decoration,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Personal Information',
-                          style: GoogleFonts.akshar(fontWeight: FontWeight.w500, fontSize: SC.fromWidth(22)),
-                        ),
-                        const SizedBox(width: 10),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfile()));
-                          },
-                          child: SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: Image.asset('assets/edit.png'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextFieldContainer(
-                      hintText: 'Full Name*',
-                      height: SC.fromHeight(16),
-                      controller: fullNameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFieldContainer(
-                      hintText: 'Email Id*',
-                      height: SC.fromHeight(16),
-                      controller: emailController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your Email Id';
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFieldContainer(
-                      hintText: 'Mobile Number*',
-                      height: SC.fromHeight(16),
-                      controller: mobileController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your Mobile Number';
-                        }
-                        return null;
-                      },
-                    ),
-                    CustomTextFieldContainer(
-                      hintText: 'Designation*',
-                      height: SC.fromHeight(16),
-                      controller: designationController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your Designation';
-                        }
-                        return null;
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   width: double.infinity,
+              //   decoration: AppConstante.decoration,
+              //   child: Column(
+              //     children: [
+              //       const SizedBox(height: 20),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Text(
+              //             'Personal Information',
+              //             style: GoogleFonts.akshar(fontWeight: FontWeight.w500, fontSize: SC.fromWidth(22)),
+              //           ),
+              //           const SizedBox(width: 10),
+              //           InkWell(
+              //             onTap: () {
+              //               Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfile()));
+              //             },
+              //             child: SizedBox(
+              //               width: 25,
+              //               height: 25,
+              //               child: Image.asset('assets/edit.png'),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       const SizedBox(height: 20),
+              //       CustomTextFieldContainer(
+              //         hintText: 'Full Name*',
+              //         height: SC.fromHeight(16),
+              //         controller: fullNameController,
+              //         validator: (value) {
+              //           if (value == null || value.isEmpty) {
+              //             return 'Please enter your name';
+              //           }
+              //           return null;
+              //         },
+              //       ),
+              //       CustomTextFieldContainer(
+              //         hintText: 'Email Id*',
+              //         height: SC.fromHeight(16),
+              //         controller: emailController,
+              //         validator: (value) {
+              //           if (value == null || value.isEmpty) {
+              //             return 'Please enter your Email Id';
+              //           }
+              //           return null;
+              //         },
+              //       ),
+              //       CustomTextFieldContainer(
+              //         hintText: 'Mobile Number*',
+              //         height: SC.fromHeight(16),
+              //         controller: mobileController,
+              //         validator: (value) {
+              //           if (value == null || value.isEmpty) {
+              //             return 'Please enter your Mobile Number';
+              //           }
+              //           return null;
+              //         },
+              //       ),
+              //       CustomTextFieldContainer(
+              //         hintText: 'Designation*',
+              //         height: SC.fromHeight(16),
+              //         controller: designationController,
+              //         validator: (value) {
+              //           if (value == null || value.isEmpty) {
+              //             return 'Please enter your Designation';
+              //           }
+              //           return null;
+              //         },
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(height: SC.fromHeight(20)),
             ],
           ),

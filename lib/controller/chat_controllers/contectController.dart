@@ -68,9 +68,6 @@ class ContactController with ChangeNotifier
 
   Future <void> acceptReq(Request request,BuildContext context) async
   {
-
-    Logger().e("Execting error");
-
     await showDialog(context: context,barrierDismissible: false, builder: (context)=>WillPopScope(
       onWillPop: ()async{
         return false;
@@ -82,8 +79,9 @@ class ContactController with ChangeNotifier
         actions: [
           ElevatedButton(onPressed: (){
             Navigator.pop(context);
-          }, child: Text("Cancle")),
-          ElevatedButton(onPressed: ()async{
+          }, child: Text("Cancel")),
+          ElevatedButton(
+              onPressed: ()async{
 
 
             String uri = "https://chat.satyakabir.com/chatify/api/accept-request?id=${request.id}";
@@ -128,7 +126,11 @@ class ContactController with ChangeNotifier
             }
 
 
-          }, child: Text("Accept")),
+          }, child: Text("Accept"),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith((s)=>Colors.green)
+            ),
+          ),
         ],
 
       ),
