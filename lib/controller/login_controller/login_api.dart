@@ -85,7 +85,7 @@ class LoginApi extends GetxController{
 
           Get.snackbar('', finalData['message'].toString());
           _clearTextFields([emailCont.value, passCont.value]);
-          Get.off(MyBottomNavigationBar());
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c)=>MyBottomNavigationBar()), (route) => false,);
         }
         return userModel;
       }

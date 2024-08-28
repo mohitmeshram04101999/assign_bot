@@ -49,21 +49,7 @@ class _ContactPageState extends State<ContactPage> {
 
 
     return DefaultTabController(length: 2, child: Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        var user =await  UserPreference().getUser();
-        var token = await NotificationService().getDeviceToken();
-        showDialog(context: context, builder: (context)=>AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Tocken "),
-              SelectableText("${token}"),
-            ],
-          ),
-        ));
 
-
-      },),
       appBar: AppBar(
 
         bottom:  TabBar(

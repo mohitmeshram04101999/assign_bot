@@ -153,7 +153,7 @@ class _ChattingPageState extends State<ChattingPage> {
     var user = await UserPreference().getUser();
 
     await pusher.init(
-      apiKey: "49531b3cef3b6772a349",
+      apiKey: "5a938f7a30104f034cb5",
       cluster: "ap2",
       onSubscriptionSucceeded:onSub,
       onEvent: onEevent,
@@ -205,20 +205,7 @@ class _ChattingPageState extends State<ChattingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 18.0),
-            child: GestureDetector(
-              onTap: () {
-                // _showLogoutDialog();
-              },
-              child:  Container(
-                width: SC.fromContextWidth(context, 11),
-                child: Image.asset('assets/log.png'),
-              ),
-            ),
-          )
-        ],
+          
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title:  Padding(
