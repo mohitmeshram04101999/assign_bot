@@ -68,7 +68,7 @@ class _ContactPageState extends State<ContactPage> {
           ),
           tabs: const [
             Text("New Chat"),
-            Text("Resent Chat"),
+            Text("Recent Chat"),
         ],),
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,

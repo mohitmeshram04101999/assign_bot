@@ -66,13 +66,17 @@ class NotificationService {
   Future<NotificationDetails> notificationDetails() async {
     return const NotificationDetails(
       android: AndroidNotificationDetails(
+        sound: RawResourceAndroidNotificationSound('sound'),
+        playSound: true,
         'channelId',
         'channelName',
         importance: Importance.max,
         priority: Priority.high,
       ),
+
     );
   }
+
 
 }
 

@@ -51,7 +51,6 @@ class LoginApi extends GetxController{
       }
     );
 
-
       var _data = jsonDecode(response.body);
 
     if(response.statusCode==200)
@@ -62,7 +61,7 @@ class LoginApi extends GetxController{
         {
 
           print(finalData);
-          Get.snackbar('', finalData['message']);
+          Get.snackbar('Logged IN', '');
           var token = finalData['data']['token'];
           var userId = finalData['data']['id'];
           var phone = finalData['data']['phone'];
@@ -86,7 +85,7 @@ class LoginApi extends GetxController{
           print(userData.toJson());
           print(userData.token);
 
-          Get.snackbar('', finalData['message'].toString());
+          // Get.snackbar('', finalData['message'].toString());
           _clearTextFields([emailCont.value, passCont.value]);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c)=>MyBottomNavigationBar()), (route) => false,);
         }

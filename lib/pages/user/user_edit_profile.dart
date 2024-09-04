@@ -273,12 +273,14 @@ import 'package:assignbot/component/loder.dart';
 import 'package:assignbot/controller/profile_controller/get_profile_api.dart';
 import 'package:assignbot/models/get_profile_model.dart';
 import 'package:assignbot/pages/user/user_profile.dart';
+import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/sharedpref/user_pref_model.dart';
 import 'package:assignbot/widgets/custom_container.dart';
 import 'package:assignbot/widgets/custom_textfield_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 
 GetProfileApi _getProfileApi = GetProfileApi();
 
@@ -408,25 +410,25 @@ class _UserEditProfileState extends State<UserEditProfile> {
                                     fontSize: SC.fromWidth(22)),
                               ),
                               const SizedBox(width: 10),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => UserProfile(
-                                        name: userPrefModel?.username ?? '',
-                                        email: userPrefModel?.email ?? '',
-                                        phone: userPrefModel?.phone ?? '',
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: SizedBox(
-                                  width: 25,
-                                  height: 25,
-                                  child: Image.asset('assets/edit.png'),
-                                ),
-                              ),
+                              // InkWell(
+                              //   onTap: () {
+                              //     Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //         builder: (context) => UserProfile(
+                              //           name: userPrefModel?.username ?? '',
+                              //           email: userPrefModel?.email ?? '',
+                              //           phone: userPrefModel?.phone ?? '',
+                              //         ),
+                              //       ),
+                              //     );
+                              //   },
+                              //   child: SizedBox(
+                              //     width: 25,
+                              //     height: 25,
+                              //     child: Image.asset('assets/edit.png'),
+                              //   ),
+                              // ),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -443,17 +445,17 @@ class _UserEditProfileState extends State<UserEditProfile> {
                             text: profileData.data!.phone.toString(),
                             height: SC.fromHeight(16),
                           ),
-                          CustomTextFieldContainer(
-                            hintText: 'Designation*',
-                            height: SC.fromHeight(16),
-                            controller: designationController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your Designation';
-                              }
-                              return null;
-                            },
-                          ),
+                          // CustomTextFieldContainer(
+                          //   hintText: 'Designation*',
+                          //   height: SC.fromHeight(16),
+                          //   controller: designationController,
+                          //   validator: (value) {
+                          //     if (value == null || value.isEmpty) {
+                          //       return 'Please enter your Designation';
+                          //     }
+                          //     return null;
+                          //   },
+                          // ),
                         ],
                       ),
                     ),

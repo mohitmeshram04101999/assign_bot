@@ -6,18 +6,12 @@ import 'package:assignbot/component/bottom_navigation_bar.dart';
 import 'package:assignbot/controller/chat_controllers/contectController.dart';
 import 'package:assignbot/main.dart';
 import 'package:assignbot/models/contactRequestModel.dart';
-import 'package:assignbot/pages/chat/chat_page.dart';
-import 'package:assignbot/pages/chat/contact_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-
-
-
-
 
 
 setListenerNotification(BuildContext context) async
@@ -31,9 +25,8 @@ setListenerNotification(BuildContext context) async
     android: initializationAndroidSettings,
   );
 
-
-
   await notificationPlugin.initialize(
+
     initializationSettings,
     onDidReceiveNotificationResponse: (message) async {
       Logger().e("payLode ${message.payload}");
@@ -56,8 +49,6 @@ setListenerNotification(BuildContext context) async
         {
           isRequest =false;
         }
-
-
 
       if(isRequest&& type_id!=null)
         {
@@ -84,12 +75,15 @@ setListenerNotification(BuildContext context) async
   );
   notificationService.getDeviceToken();
   // Assign the top-level background message handler
-  FirebaseMessaging.onBackgroundMessage((message) {
+  FirebaseMessaging.onBackgroundMessage((message) async {
+
     log('Handling a background message: ${message.messageId}');
+    await notificationService.showNotification(
+      id: int.parse(message.messageId!),
+      message: message
+    );
     return firebaseMessagingBackgroundHandler(message);
   },);
-
-
 
   FirebaseMessaging.onMessage.listen((message) {
     log('Received message: $message');
