@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:assignbot/Mohit/notification.dart';
 import 'package:assignbot/component/bottom_navigation_bar.dart';
 import 'package:assignbot/component/loder.dart';
+import 'package:assignbot/controller/chat_controllers/contectController.dart';
+import 'package:assignbot/models/contactRequestModel.dart';
 import 'package:assignbot/models/user_model.dart';
 import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/sharedpref/user_pref_model.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class LoginApi extends GetxController{
 
@@ -20,7 +23,7 @@ class LoginApi extends GetxController{
 
 
 
-  Future<UserModel?> userLogin(final BuildContext context) async{
+  Future<UserModel?> userLogin(final BuildContext context,{int? requestId}) async{
 
     UserPreference userPreference = UserPreference();
 
@@ -85,7 +88,9 @@ class LoginApi extends GetxController{
 
           Get.snackbar('', finalData['message'].toString());
           _clearTextFields([emailCont.value, passCont.value]);
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c)=>MyBottomNavigationBar()), (route) => false,);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c){
+            return MyBottomNavigationBar(requestId: requestId,);
+          }), (route) => false,);
         }
         return userModel;
       }
