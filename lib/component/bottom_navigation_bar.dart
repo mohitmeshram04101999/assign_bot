@@ -140,6 +140,7 @@
 
 import 'dart:async';
 import 'package:assignbot/component/dimension.dart';
+import 'package:assignbot/controller/chat_controllers/contectController.dart';
 import 'package:assignbot/pages/chat/chat_page.dart';
 import 'package:assignbot/pages/chat/contact_page.dart';
 import 'package:assignbot/pages/home_pages/home_page.dart';
@@ -150,12 +151,16 @@ import 'package:assignbot/widgets/customBotomNavigationBar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:animations/animations.dart';
+import 'package:provider/provider.dart';
+
+import '../models/contactRequestModel.dart';
 
 
 
 class MyBottomNavigationBar extends StatefulWidget {
   int? page;
-  MyBottomNavigationBar({this.page, super.key});
+  int? requestId;
+  MyBottomNavigationBar({this.requestId,this.page, super.key});
 
   @override
   State<MyBottomNavigationBar> createState() => _MyBottomNavigationBarState();
@@ -179,7 +184,23 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
     if (widget.page != null) {
       currentPage = widget.page!;
     }
+
   }
+
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if(widget.requestId!=null)
+    {
+      Timer(Duration(milliseconds: 1000),(){
+        Provider.of<ContactController>(context,listen: false).acceptReq(Request(id: widget.requestId,userName: "NewUser",userEmail: "",userPhone: ""), context);
+      });
+    }
+  }
+
+
 
   void animateToPage(int page) {
     setState(() {
@@ -195,6 +216,13 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
         if (backPress == 2) {
           return true;
         } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.transparent,behavior: SnackBarBehavior.floating,elevation: 0,content: Center(
+              child: Card(
+              color: Colors.red,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Press again to exit",style: TextStyle(color: Colors.white),),
+                  )))));
           Timer(const Duration(seconds: 1), () {
             backPress = 0;
           });

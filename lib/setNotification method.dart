@@ -8,6 +8,8 @@ import 'package:assignbot/main.dart';
 import 'package:assignbot/models/contactRequestModel.dart';
 import 'package:assignbot/pages/chat/chat_page.dart';
 import 'package:assignbot/pages/chat/contact_page.dart';
+import 'package:assignbot/pages/login_pages/login_page.dart';
+import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +38,17 @@ setListenerNotification(BuildContext context) async
   await notificationPlugin.initialize(
     initializationSettings,
     onDidReceiveNotificationResponse: (message) async {
+      bool isUser =await UserPreference().checkUser() ;
+      Logger().e("user Is $isUser");
       Logger().e("payLode ${message.payload}");
-      var encode = jsonEncode(message.payload??"");
-      var deocde = jsonDecode(encode);
+      bool haCalled = false;
 
       String s1 = (message.payload!=null)? message.payload!.replaceAll("{",""):"";
       String s2 = s1.replaceAll("}","");
       List<String> sp = s2.split(",");
+
+
+
       bool isRequest;
       int? type_id = null;
       if(sp[2].split(" ").contains("request"))
@@ -53,32 +59,44 @@ setListenerNotification(BuildContext context) async
         type_id = int.parse(_p);
       }
       else
-        {
-          isRequest =false;
-        }
+      {
+        isRequest =false;
+      }
 
 
+      final p = Provider.of<ContactController>(context,listen: false);
 
-      if(isRequest&& type_id!=null)
-        {
+      await p.getRequest(context);
 
-          Logger().e("Calling Notification tis Time");
-          bool haCalled = false;
-          final p = Provider.of<ContactController>(context,listen: false);
-          await p.getRequest(context);
-          navigatorKey.currentState!.push( MaterialPageRoute(builder: (context2){
-            WidgetsBinding.instance.addPostFrameCallback((d){
-              if(haCalled==false)
-                {
-                  p.acceptReq(Request(id: type_id,userName: "NewUser",userEmail: "",userPhone: ""), navigatorKey.currentContext!);
-                }
-              haCalled = true;
-            });
 
-            return MyBottomNavigationBar();
-          }),);
-        }
+          if(isUser)
+            {
 
+              if(isRequest&& type_id!=null)
+              {
+                Logger().e("Calling Notification tis Time");
+
+                navigatorKey.currentState!.pushAndRemoveUntil( MaterialPageRoute(builder: (context2){
+                  WidgetsBinding.instance.addPostFrameCallback((d){
+                    if(haCalled==false)
+                    {
+                      p.acceptReq(Request(id: type_id,userName: "NewUser",userEmail: "",userPhone: ""), navigatorKey.currentContext!);
+                    }
+                    haCalled = true;
+                  });
+
+                  return MyBottomNavigationBar();
+                }),(r)=>false);
+              }
+
+            }
+          else
+            {
+
+              navigatorKey.currentState!.pushAndRemoveUntil( MaterialPageRoute(builder: (context2){
+                return LoginPage(requestId: type_id,);
+              }),(r)=>false);
+            }
     },
     onDidReceiveBackgroundNotificationResponse: backgroundNotificationResponseHandler,
   );

@@ -11,7 +11,8 @@ import 'package:get/get.dart';
 LoginApi _loginApi = Get.put(LoginApi());
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final int? requestId;
+  const LoginPage({this.requestId,super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -26,8 +27,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const  CustomAppBar(
-        title: 'Login',
+      appBar: AppBar(
+        title: Text('Login'),
+        foregroundColor: Colors.white,
         backgroundColor: Color(0xFFF60205),
       ),
       body: Form(
@@ -97,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
               CustomButton(text: 'LOGIN', onPressed: () {
 
                 if (_formKey.currentState!.validate()) {
-                  _loginApi.userLogin(context);
+                  _loginApi.userLogin(context,requestId: widget.requestId);
                 }
 
                 // Navigator.push(context, MaterialPageRoute(builder: (context)=>SignupPage()));

@@ -44,6 +44,24 @@ Logger().w('User data fetched from SharedPreferences: $token, $userId, $isLogin,
 
     );
   }
+
+
+
+  Future<bool> checkUser()async
+  {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString("token");
+    if(token!=null)
+      {
+        return true;
+      }
+    else
+      {
+        return false;
+      }
+  }
+
+
   Future<bool> removeUser() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     bool success = await sp.clear();
