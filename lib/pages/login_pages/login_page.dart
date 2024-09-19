@@ -29,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
 
       appBar: AppBar(
-        title: Text('Login'),
         foregroundColor: Colors.white,
 
         backgroundColor: Color(0xFFF60205),

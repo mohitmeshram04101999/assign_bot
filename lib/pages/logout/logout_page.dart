@@ -6,6 +6,8 @@ import 'package:assignbot/widgets/selectable_container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controller/logout COntrollers.dart';
+
 LogOut _logOut = LogOut();
 
 class LogoutPage extends StatefulWidget {
