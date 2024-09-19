@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:assignbot/Mohit/notification.dart';
 import 'package:assignbot/component/bottom_navigation_bar.dart';
@@ -16,7 +15,6 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class LoginApi extends GetxController{
-
 
   final emailCont = TextEditingController().obs;
   final passCont = TextEditingController().obs;
@@ -56,7 +54,6 @@ class LoginApi extends GetxController{
       }
     );
 
-
       var _data = jsonDecode(response.body);
 
     if(response.statusCode==200)
@@ -66,13 +63,18 @@ class LoginApi extends GetxController{
         if(finalData['success'] == true)
         {
 
-          Get.snackbar('', finalData['message']);
+          print(finalData);
+          Get.snackbar('Logged IN', '');
           var token = finalData['data']['token'];
           var userId = finalData['data']['id'];
+          var phone = finalData['data']['phone'];
+          var email = finalData['data']['email'];
 
           UserPrefModel userPrefModel = UserPrefModel(
             token: token,
             userId: userId,
+            phone: phone,
+            email: email,
             username: finalData['data']['name'],
             isLogin: true,
           );
@@ -86,7 +88,7 @@ class LoginApi extends GetxController{
           print(userData.toJson());
           print(userData.token);
 
-          Get.snackbar('', finalData['message'].toString());
+          // Get.snackbar('', finalData['message'].toString());
           _clearTextFields([emailCont.value, passCont.value]);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c){
             return MyBottomNavigationBar(requestId: requestId,);

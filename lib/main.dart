@@ -1,9 +1,7 @@
-
 import 'dart:developer';
-
 import 'package:assignbot/Mohit/notification.dart';
+import 'package:assignbot/component/background_service.dart';
 import 'package:assignbot/component/bottom_navigation_bar.dart';
-import 'package:assignbot/component/const.dart';
 import 'package:assignbot/component/dimension.dart';
 import 'package:assignbot/controller/chat_controllers/contectController.dart';
 import 'package:assignbot/firebase_options.dart';
@@ -17,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
-
 import 'controller/chat_controllers/fetch_message_api.dart';
 
 
@@ -26,15 +23,21 @@ final navigatorKey = GlobalKey<NavigatorState>();
 // Define the top-level function for handling background messages
 @pragma('vm:entry-point')
 backgroundNotificationResponseHandler(NotificationResponse notification) async {
+  log('Received background notification response: $notification');
+  await NotificationService().showNotification(message: RemoteMessage(
+    data: {}
+  ), id: 5);
 }
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  NotificationService().showNotification(message: message);
+  await NotificationService().showNotification(message: message, id: 0);
 }
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+  // await initializeService();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -52,8 +55,6 @@ void main() async {
 }
 
 
-
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -62,7 +63,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
 
   UserPrefModel? user;
   @override
@@ -88,7 +88,6 @@ class _MyAppState extends State<MyApp> {
 
       theme: ThemeData(
 
-
         //elevated them
         elevatedButtonTheme: ElevatedButtonThemeData(
 
@@ -96,7 +95,8 @@ class _MyAppState extends State<MyApp> {
 
             foregroundColor: MaterialStateProperty.resolveWith((s)=>Colors.white),
 
-            textStyle: MaterialStateProperty.resolveWith((s)=>TextStyle(color: Colors.white)) ,
+            textStyle: MaterialStateProperty.resolveWith((s)=>TextStyle(color: Colors.white)),
+
             backgroundColor: MaterialStateProperty.resolveWith((s)=>Colors.red),
 
             shape: MaterialStateProperty.resolveWith((s)=>RoundedRectangleBorder(

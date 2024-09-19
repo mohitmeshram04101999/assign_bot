@@ -68,7 +68,7 @@ class _ContactPageState extends State<ContactPage> {
           ),
           tabs: const [
             Text("New Chat"),
-            Text("Resent Chat"),
+            Text("Recent Chat"),
         ],),
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
@@ -180,8 +180,10 @@ class RecentChatTab extends StatelessWidget {
       future: contactApi.fetchContactApi(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
+
           // While the future is still loading
           return  const Loader();
+
         } else if (snapshot.hasError) {
           // If the future completed with an error
           return Center(child: Text('Error: ${snapshot.error}'));
