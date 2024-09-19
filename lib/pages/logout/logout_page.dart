@@ -1,11 +1,12 @@
 import 'package:assignbot/component/dimension.dart';
-import 'package:assignbot/controller/logout_api.dart';
 import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/sharedpref/user_pref_model.dart';
 import 'package:assignbot/widgets/selectable_container.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../controller/logout COntrollers.dart';
 
 LogOut _logOut = LogOut();
 

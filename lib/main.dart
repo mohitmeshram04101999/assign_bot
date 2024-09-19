@@ -42,6 +42,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => MessageController()),

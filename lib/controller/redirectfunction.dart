@@ -8,5 +8,6 @@ import 'package:flutter/material.dart';
 
 void reDirect(BuildContext context){
   UserPreference().removeUser();
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Token Expire"),backgroundColor: Colors.red,behavior: SnackBarBehavior.fixed,));
   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const LoginPage()), (b)=>false);
 }
