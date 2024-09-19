@@ -27,11 +27,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
       appBar: AppBar(
         title: Text('Login'),
         foregroundColor: Colors.white,
+
         backgroundColor: Color(0xFFF60205),
+        title: Text('Login',style: TextStyle(color: Colors.white),),
       ),
+      // const  CustomAppBar(
+      //   title: 'Login',
+      //   backgroundColor: Color(0xFFF60205),
+      // ),
       body: Form(
         key: _formKey,
         child: Padding(

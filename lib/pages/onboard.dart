@@ -84,7 +84,7 @@ class _OnboardPageState extends State<OnboardPage> {
                 SizedBox(height: SC.fromHeight(25),),
 
                 CustomButton(text: 'LOGIN', onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginPage()));
                 },
                 ),
                 SizedBox(height: SC.fromHeight(45),),

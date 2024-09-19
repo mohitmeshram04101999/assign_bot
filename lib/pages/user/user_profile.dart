@@ -1,46 +1,49 @@
 import 'package:assignbot/component/constent.dart';
 import 'package:assignbot/component/dimension.dart';
+import 'package:assignbot/controller/profile_controller/get_profile_api.dart';
 import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/sharedpref/user_pref_model.dart';
 import 'package:assignbot/widgets/custom_button.dart';
 import 'package:assignbot/widgets/custom_textfield_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 
+
+GetProfileApi _getProfileApi = Get.put(GetProfileApi());
+
 class UserProfile extends StatefulWidget {
-  const UserProfile({super.key});
+
+
+  String name;
+  String email;
+  String phone;
+    UserProfile({super.key,required this.name,required this.email,required this.phone});
 
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfile> {
-  UserPrefModel? userPrefModel;
+
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController designationController = TextEditingController();
 
+
   @override
   void initState() {
+
+    widget.name;
+    widget.email;
+    widget.phone;
     super.initState();
-    getUserData();
+
   }
 
-  getUserData() async {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) async {
-      userPrefModel = await UserPreference().getUser();
-      Logger().i(userPrefModel?.toJson());
-      setState(() {
-        fullNameController.text = userPrefModel?.username ?? '';
-        emailController.text =  '';
-        mobileController.text =  '';
-        designationController.text =  '';
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +75,7 @@ class _UserProfileState extends State<UserProfile> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 18.0),
                         child: Text(
-                          '${userPrefModel?.username}',
+                          '',
                           style: GoogleFonts.akshar(fontWeight: FontWeight.w500, fontSize: SC.fromWidth(25)),
                         ),
                       ),
@@ -128,7 +131,7 @@ class _UserProfileState extends State<UserProfile> {
                     CustomTextFieldContainer(
                       hintText: 'Full Name*',
                       height: SC.fromHeight(16),
-                      controller: fullNameController,
+                       controller: fullNameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your name';
@@ -139,7 +142,7 @@ class _UserProfileState extends State<UserProfile> {
                     CustomTextFieldContainer(
                       hintText: 'Email Id*',
                       height: SC.fromHeight(16),
-                      controller: emailController,
+                      // controller: emailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your Email Id';
@@ -150,7 +153,7 @@ class _UserProfileState extends State<UserProfile> {
                     CustomTextFieldContainer(
                       hintText: 'Mobile Number*',
                       height: SC.fromHeight(16),
-                      controller: mobileController,
+                      // controller: mobileController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your Mobile Number';
@@ -161,7 +164,7 @@ class _UserProfileState extends State<UserProfile> {
                     CustomTextFieldContainer(
                       hintText: 'Designation*',
                       height: SC.fromHeight(16),
-                      controller: designationController,
+                      // controller: designationController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your Designation';
@@ -190,12 +193,5 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  @override
-  void dispose() {
-    fullNameController.dispose();
-    emailController.dispose();
-    mobileController.dispose();
-    designationController.dispose();
-    super.dispose();
-  }
+
 }

@@ -1,10 +1,13 @@
 import 'package:assignbot/component/dimension.dart';
+import 'package:assignbot/controller/logout_api.dart';
 import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/sharedpref/user_pref_model.dart';
 import 'package:assignbot/widgets/selectable_container.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+LogOut _logOut = LogOut();
 
 class LogoutPage extends StatefulWidget {
   const LogoutPage({super.key});
@@ -60,7 +63,8 @@ class _LogoutPageState extends State<LogoutPage> {
                       setState(() {
                         isNewChatSelected = true;
                       });
-                      await UserPreference().logOut(context);
+                      // await UserPreference().logOut(context);
+                      _logOut.logoutapi(context);
                     },
                   ),
                   SelectableContainer2(

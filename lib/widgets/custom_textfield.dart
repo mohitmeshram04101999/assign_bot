@@ -50,8 +50,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.textInputType,
       controller: widget.controller,
       cursorColor: Colors.grey,
-      decoration: InputDecoration(
 
+      decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(7),
           borderSide: BorderSide(color: Colors.grey.shade400),
