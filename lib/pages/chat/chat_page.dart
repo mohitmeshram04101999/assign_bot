@@ -47,7 +47,7 @@ class _ChattingPageState extends State<ChattingPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    chatController.clear();
+    // chatController.clear();
   }
 
   void _sendMessage() {
