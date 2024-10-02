@@ -13,6 +13,7 @@ import 'package:assignbot/sharedpref/shared_pref.dart';
 import 'package:assignbot/widgets/selectable_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -44,14 +45,29 @@ class _ContactPageState extends State<ContactPage> {
 
   }
 
+
+  bool? serviceState;
+
+  getServiceState()async
+  {
+    var serviece = FlutterBackgroundService();
+    serviceState = await serviece.isRunning();
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
+    getServiceState();
+
 
 
     return DefaultTabController(length: 2, child: Scaffold(
 
       appBar: AppBar(
-
         bottom:  TabBar(
           overlayColor: WidgetStateProperty.resolveWith((s)=>Colors.white),
 
@@ -72,10 +88,13 @@ class _ContactPageState extends State<ContactPage> {
         ],),
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title:const  Padding(
-          padding:  EdgeInsets.only(left: 28.0),
-          child: Text('Chats', style: TextStyle(fontWeight: FontWeight.w500)),
-        ),
+
+        title: Text("$serviceState"),
+        // title:const  Padding(
+        //   padding:  EdgeInsets.only(left: 28.0),
+        //   child: Text('Chats', style: TextStyle(fontWeight: FontWeight.w500)),
+        // ),
+        // backgroundColor: const Color(0xFFF60205),
         backgroundColor: const Color(0xFFF60205),
       ),
       body: TabBarView(
