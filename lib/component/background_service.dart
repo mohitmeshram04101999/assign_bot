@@ -2,9 +2,15 @@
 
 import 'dart:async';
 import 'dart:ui';
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_overlay_apps/flutter_overlay_apps.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 Future initializeService() async {
   final service = FlutterBackgroundService();
@@ -66,31 +72,59 @@ void onStart(ServiceInstance service) async {
 
   Timer.periodic(Duration(seconds: 5), (timer) async {
     try {
-      if (service is AndroidServiceInstance) {
-        if (await service.isForegroundService()) {
-          if (notificationCount < 2) {
-            await flutterLocalNotificationsPlugin.show(
-              notificationCount + 1, // Unique ID for each notification
-              'SatyaKabir Chat',
-              'Shake feature enabled',
-              NotificationDetails(
-                android: AndroidNotificationDetails(
-                  'Satya_Kabir', // Notification Channel ID
-                  'Background Service',
-                  ongoing: true,
-                  importance: Importance.high,
-                  priority: Priority.high,
-                ),
-              ),
-            );
-            notificationCount++; // Increment the notification counter
-          } else {
-            timer.cancel(); // Stop the timer after sending two notifications
-          }
-        }
-      }
+      // if (service is AndroidServiceInstance) {
+      //   if (await service.isForegroundService()) {
+      //     if (notificationCount < 2) {
+      //       await flutterLocalNotificationsPlugin.show(
+      //         notificationCount + 1, // Unique ID for each notification
+      //         'SatyaKabir Chat',
+      //         'Shake feature enabled',
+      //         NotificationDetails(
+      //           android: AndroidNotificationDetails(
+      //             'Satya_Kabir', // Notification Channel ID
+      //             'Background Service',
+      //             ongoing: true,
+      //             importance: Importance.high,
+      //             priority: Priority.high,
+      //           ),
+      //         ),
+      //       );
+      //       notificationCount++; // Increment the notification counter
+      //     } else {
+      //       timer.cancel(); // Stop the timer after sending two notifications
+      //     }
+      //   }
+      // }
     } catch (e) {
       print('Error showing notification: $e');
+
     }
+
+    var pref = await SharedPreferences.getInstance();
+    int count = pref.getInt("county")??0;
+    print("This Is Count = ${count}");
+    count++;
+    await pref.setInt("county", count);
+
+    if(count==6)
+      {
+
+
+      }
   });
+}
+
+
+
+
+@pragma("vm:entry-point")
+void showOverlay() {
+  runApp(const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: Text("Over lay"),
+        ),
+      )
+  ));
 }

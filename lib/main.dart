@@ -14,6 +14,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'controller/chat_controllers/fetch_message_api.dart';
 
@@ -29,6 +30,7 @@ backgroundNotificationResponseHandler(NotificationResponse notification) async {
   ), id: 5);
 }
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  Logger().e("bacgroubn Notification is Receved");
   await Firebase.initializeApp();
   await NotificationService().showNotification(message: message, id: 0);
 }
@@ -36,7 +38,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  // await initializeService();
+
+  await initializeService();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

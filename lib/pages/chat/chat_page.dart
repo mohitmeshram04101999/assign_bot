@@ -215,6 +215,7 @@ class _ChattingPageState extends State<ChattingPage> {
             subtitle: Text(widget.userEmail, style:const TextStyle(fontWeight: FontWeight.w500, color: Colors.white)),
           )
         ),
+
         backgroundColor: const Color(0xFFF60205),
       ),
       backgroundColor: Colors.white,

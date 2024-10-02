@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.4.1"
+  android_intent_plus:
+    dependency: "direct main"
+    description:
+      name: android_intent_plus
+      sha256: "007703c1b2cac7ca98add3336b98cffa4baa11d5133cc463293dba9daa39cdf6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   animations:
     dependency: "direct main"
     description:
@@ -483,6 +491,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.3"
+  flutter_overlay_apps:
+    dependency: "direct main"
+    description:
+      name: flutter_overlay_apps
+      sha256: ded9063edca4eb811c5a1e8604c5a4ece925c377438f0860fe0869a1276a9283
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   flutter_parsed_text:
     dependency: transitive
     description:

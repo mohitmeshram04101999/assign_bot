@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:assignbot/Mohit/notification.dart';
@@ -7,8 +6,7 @@ import 'package:assignbot/controller/chat_controllers/contectController.dart';
 import 'package:assignbot/main.dart';
 import 'package:assignbot/models/contactRequestModel.dart';
 
-import 'package:assignbot/pages/chat/chat_page.dart';
-import 'package:assignbot/pages/chat/contact_page.dart';
+
 import 'package:assignbot/pages/login_pages/login_page.dart';
 import 'package:assignbot/sharedpref/shared_pref.dart';
 
@@ -35,6 +33,8 @@ setListenerNotification(BuildContext context) async
 
     initializationSettings,
     onDidReceiveNotificationResponse: (message) async {
+
+
       bool isUser =await UserPreference().checkUser() ;
       Logger().e("user Is $isUser");
       Logger().e("payLode ${message.payload}");
@@ -67,12 +67,11 @@ setListenerNotification(BuildContext context) async
 
 
 
-          if(isUser)
+      if(isUser)
             {
 
               if(isRequest&& type_id!=null)
               {
-                Logger().e("Calling Notification tis Time");
 
                 navigatorKey.currentState!.pushAndRemoveUntil( MaterialPageRoute(builder: (context2){
                   WidgetsBinding.instance.addPostFrameCallback((d){
