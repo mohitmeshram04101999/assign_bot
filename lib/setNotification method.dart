@@ -32,6 +32,9 @@ setListenerNotification(BuildContext context) async
   await notificationPlugin.initialize(
 
     initializationSettings,
+
+
+    //This is Tap from forground
     onDidReceiveNotificationResponse: (message) async {
 
 
@@ -98,17 +101,25 @@ setListenerNotification(BuildContext context) async
     },
     onDidReceiveBackgroundNotificationResponse: backgroundNotificationResponseHandler,
   );
+
   notificationService.getDeviceToken();
   // Assign the top-level background message handler
   FirebaseMessaging.onBackgroundMessage((message) async {
 
-    log('Handling a background message: ${message.messageId}');
-    await notificationService.showNotification(
-      id: int.parse(message.messageId!),
-      message: message
-    );
+    // log('Handling a background message: ${message.messageId}');
+    // await notificationService.showNotification(
+    //   id: int.parse(message.messageId!),
+    //   message: message
+    // );
+
+
+
     return firebaseMessagingBackgroundHandler(message);
   },);
+
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message){
+    Logger().i("App id Opne by Clicking Notification By the way");
+  });
 
   FirebaseMessaging.onMessage.listen((message) {
     log('Received message: $message');
@@ -116,4 +127,13 @@ setListenerNotification(BuildContext context) async
     notificationService.showNotification(message: message);
   });
 
+}
+
+
+@pragma('vm:entry-point')
+backgroundNotificationResponseHandler(NotificationResponse notification) async {
+  log('Received background notification response: $notification');
+  await NotificationService().showNotification(message: RemoteMessage(
+      data: {}
+  ), id: 5);
 }

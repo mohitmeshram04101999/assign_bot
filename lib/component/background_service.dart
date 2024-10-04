@@ -1,16 +1,17 @@
-
-
 import 'dart:async';
 import 'dart:ui';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_autostart/flutter_autostart.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_overlay_apps/flutter_overlay_apps.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 Future initializeService() async {
   final service = FlutterBackgroundService();
@@ -26,10 +27,11 @@ Future initializeService() async {
   );
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   await service.configure(
@@ -52,7 +54,7 @@ Future initializeService() async {
 void onStart(ServiceInstance service) async {
   DartPluginRegistrant.ensureInitialized();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   int notificationCount = 0; // Counter to track number of notifications sent
 
@@ -97,25 +99,20 @@ void onStart(ServiceInstance service) async {
       // }
     } catch (e) {
       print('Error showing notification: $e');
-
     }
 
     var pref = await SharedPreferences.getInstance();
-    int count = pref.getInt("county")??0;
+    int count = pref.getInt("county") ?? 0;
     print("This Is Count = ${count}");
     count++;
     await pref.setInt("county", count);
 
-    if(count==6)
-      {
+    if (count > 10) {
 
-
-      }
+      // showFullScreenNotification();
+    }
   });
 }
-
-
-
 
 @pragma("vm:entry-point")
 void showOverlay() {
@@ -125,6 +122,55 @@ void showOverlay() {
         body: Center(
           child: Text("Over lay"),
         ),
-      )
-  ));
+      )));
+}
+
+Future<void> openApp() async {
+  // var d = await LaunchApp.isAppInstalled(
+  //   // androidPackageName: "com.example.assignbot"
+  //   androidPackageName: "com.android.chrome",
+  // );
+  // String chromePkName = "com.android.chrome";
+  // String YtPkName = "com.google.android.youtube";
+  // String WhatsAppPkName = "com.whatsapp";
+  // String packageName =YtPkName;
+  //
+  // String url = 'tel:7747071882';
+  // // LaunchApp.openApp(
+  // //   androidPackageName:"com.whatsapp"
+  // // );
+  //
+  // launch(url);
+  // print(d);
+}
+
+Future<void> getAutoStartPermission() async {
+  var _flutterAutostartPlugin = FlutterAutostart();
+
+  String autoStartPermission;
+  try {
+    autoStartPermission =
+        await _flutterAutostartPlugin.showAutoStartPermissionSettings() ??
+            'Unknown autoStartPermission';
+  } on PlatformException {
+    autoStartPermission = 'Failed to show autoStartPermission.';
+  }
+}
+
+@pragma("vm:entry-point")
+Future<void> showFullScreenNotification() async {
+
+
+  AndroidNotificationDetails androidNotificationDetails =
+      AndroidNotificationDetails("channelId", "channelName",
+          importance: Importance.max,
+          category: AndroidNotificationCategory.alarm,
+          priority: Priority.high,
+          fullScreenIntent: true);
+
+  final platformNoitifcationPlugin =
+      NotificationDetails(android: androidNotificationDetails);
+
+  await FlutterLocalNotificationsPlugin()
+      .show(0, "This Id Body", "sdfasdfd", platformNoitifcationPlugin);
 }

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:assignbot/Mohit/notification.dart';
 import 'package:assignbot/component/background_service.dart';
 import 'package:assignbot/component/bottom_navigation_bar.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'controller/chat_controllers/fetch_message_api.dart';
 
@@ -22,17 +24,25 @@ import 'controller/chat_controllers/fetch_message_api.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 // Define the top-level function for handling background messages
-@pragma('vm:entry-point')
-backgroundNotificationResponseHandler(NotificationResponse notification) async {
-  log('Received background notification response: $notification');
-  await NotificationService().showNotification(message: RemoteMessage(
-    data: {}
-  ), id: 5);
-}
+
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   Logger().e("bacgroubn Notification is Receved");
   await Firebase.initializeApp();
-  await NotificationService().showNotification(message: message, id: 0);
+  AndroidNotificationDetails androidNotificationDetails =
+  AndroidNotificationDetails("full_screen_intent", "hggfgfgdfgdfgdfdf",
+      importance: Importance.max,
+      category: AndroidNotificationCategory.alarm,
+      priority: Priority.high,
+      fullScreenIntent: true);
+
+  final platformNoitifcationPlugin =
+  NotificationDetails(android: androidNotificationDetails);
+
+  await FlutterLocalNotificationsPlugin()
+      .show(0, "This Id Body", "sdfasdfd", platformNoitifcationPlugin);
+
+  //
+  // await NotificationService().showNotification(message: message, id: 0);
 }
 
 void main() async {
@@ -46,7 +56,27 @@ void main() async {
   );
 
 
+  
+
+
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+
+  AwesomeNotifications().initialize(
+    debug: true,
+    // Your app icon
+    'resource://drawable/ic_launcher',
+    [
+      NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Basic notifications',
+        channelDescription: 'Notification channel for basic tests',
+        defaultColor: Color(0xFF9D50DD),
+        ledColor: Colors.white,
+        importance: NotificationImportance.High,
+      )
+    ],
+  );
 
   runApp(MultiProvider(
     providers: [
@@ -73,8 +103,14 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     getUser();
     setListenerNotification(context);
+    
     super.initState();
   }
+
+
+
+
+
   getUser()async{
     UserPreference userPreference= UserPreference();
    user=await userPreference.getUser();
