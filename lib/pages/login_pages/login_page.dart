@@ -1,11 +1,17 @@
+import 'package:assignbot/Mohit/notification.dart';
+import 'package:assignbot/component/background_service.dart';
 import 'package:assignbot/component/dimension.dart';
 import 'package:assignbot/controller/login_controller/login_api.dart';
 import 'package:assignbot/pages/login_pages/forgot_password.dart';
 import 'package:assignbot/widgets/custom_appbar.dart';
 import 'package:assignbot/widgets/custom_button.dart';
 import 'package:assignbot/widgets/custom_textfield.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 
 LoginApi _loginApi = Get.put(LoginApi());
@@ -27,6 +33,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
+
+      //floating action button
+      floatingActionButton: kDebugMode?FloatingActionButton(
+        onPressed: ()async{
+          var tok  = await  NotificationService().getDeviceToken();
+          Logger().i("Token  $tok");
+        },
+      ):null,
 
       appBar: AppBar(
         foregroundColor: Colors.white,

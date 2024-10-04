@@ -1,4 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.assignbot">
+
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.BACKGROUND_SERVICE"/>
@@ -9,11 +12,16 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
     <application
         android:label="Satya-Kabir Support"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:allowBackup="false"
+        android:theme="@style/NormalTheme">
+
+        <!-- Main activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -21,39 +29,49 @@
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
-                android:resource="@style/NormalTheme"
-                />
+                android:resource="@style/NormalTheme"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!-- Service -->
         <service
             android:name="com.phan_tech.flutter_overlay_apps.OverlayService"
             android:permission="android.permission.FOREGROUND_SERVICE"
             android:exported="true"
             android:foregroundServiceType="dataSync">
         </service>
+
+        <!-- Notification Receivers -->
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.receivers.ScheduledNotificationReceiver"/>
-        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
+        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver"/>
         <receiver android:exported="true" android:name="com.dexterous.flutterlocalnotifications.receivers.ScheduledNotificationBootReceiver">
             <intent-filter>
+                <!-- This listens to boot complete events -->
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
+                <!-- Manufacturer-specific boot action -->
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
             </intent-filter>
         </receiver>
         <receiver android:exported="true" android:name="com.dexterous.flutterlocalnotifications.receivers.ActionBroadcastReceiver"/>
         <receiver android:exported="true" android:name="com.dexterous.flutterlocalnotifications.receivers.DismissedReceiver"/>
-        <meta-data
-            android:name="flutterEmbedding"
-            android:value="2"/>
+
+        <!-- Flutter Embedding -->
+        <meta-data android:name="flutterEmbedding" android:value="2"/>
+
     </application>
+
+    <!-- Allow querying for text-processing actions -->
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
