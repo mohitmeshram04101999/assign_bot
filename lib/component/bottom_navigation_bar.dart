@@ -142,34 +142,39 @@ import 'dart:async';
 import 'package:assignbot/Mohit/notification.dart';
 import 'package:assignbot/component/dimension.dart';
 import 'package:assignbot/controller/chat_controllers/contectController.dart';
+import 'package:assignbot/main.dart';
 import 'package:assignbot/pages/chat/chat_page.dart';
 import 'package:assignbot/pages/chat/contact_page.dart';
 import 'package:assignbot/pages/home_pages/home_page.dart';
 import 'package:assignbot/pages/logout/logout_page.dart';
 import 'package:assignbot/pages/user/user_edit_profile.dart';
 import 'package:assignbot/pages/user/user_profile.dart';
+import 'package:assignbot/setNotification%20method.dart';
 import 'package:assignbot/widgets/customBotomNavigationBar.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:animations/animations.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 import '../models/contactRequestModel.dart';
 
-
-
 class MyBottomNavigationBar extends StatefulWidget {
   int? page;
   int? requestId;
-  MyBottomNavigationBar({this.requestId,this.page, super.key});
+  ReceivedAction? action;
+  MyBottomNavigationBar({this.action, this.requestId, this.page, super.key});
 
   @override
   State<MyBottomNavigationBar> createState() => _MyBottomNavigationBarState();
 }
 
-class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with SingleTickerProviderStateMixin {
+class _MyBottomNavigationBarState extends State<MyBottomNavigationBar>
+    with SingleTickerProviderStateMixin {
   int currentPage = 0;
   int backPress = 0;
 
@@ -178,32 +183,43 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
     const ContactPage(),
     const UserEditProfile(),
     const LogoutPage(),
-
   ];
+
+  actionReceived() async {
+    handleTap(widget.action!);
+  }
 
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((s) {
+      if (navigatorKey.currentContext != null && widget.action != null) {
+        actionReceived();
+      }
+    });
+
     if (widget.page != null) {
       currentPage = widget.page!;
     }
-
   }
-
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    if(widget.requestId!=null)
-    {
-      Timer(Duration(milliseconds: 1000),(){
-        Provider.of<ContactController>(context,listen: false).acceptReq(Request(id: widget.requestId,userName: "NewUser",userEmail: "",userPhone: ""), context);
+    if (widget.requestId != null) {
+      Timer(Duration(milliseconds: 1000), () {
+        Provider.of<ContactController>(context, listen: false).acceptReq(
+            Request(
+                id: widget.requestId,
+                userName: "NewUser",
+                userEmail: "",
+                userPhone: ""),
+            context);
       });
     }
   }
-
-
 
   void animateToPage(int page) {
     setState(() {
@@ -219,13 +235,20 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
         if (backPress == 2) {
           return true;
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.transparent,behavior: SnackBarBehavior.floating,elevation: 0,content: Center(
-              child: Card(
-              color: Colors.red,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Press again to exit",style: TextStyle(color: Colors.white),),
-                  )))));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: Colors.transparent,
+              behavior: SnackBarBehavior.floating,
+              elevation: 0,
+              content: Center(
+                  child: Card(
+                      color: Colors.red,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Press again to exit",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )))));
           Timer(const Duration(seconds: 1), () {
             backPress = 0;
           });
@@ -233,36 +256,40 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
         return false;
       },
       child: Scaffold(
+        floatingActionButton: kDebugMode
+            ? FloatingActionButton(onPressed: () async {
+                // if(widget.action!=null)
+                //   {
+                //     actionReceived();
+                //   }
 
+                var d = await NotificationService().getDeviceToken();
+                Logger().w(d);
 
-        floatingActionButton: kDebugMode?FloatingActionButton(onPressed: () async {
-          var d = await NotificationService().getDeviceToken();
-          print("  --($d)--");
-          
-
-
-
-          var notification_detail = NotificationDetails(
-            android: AndroidNotificationDetails(
-              sound: RawResourceAndroidNotificationSound('sound'),
-              playSound: true,
-              'channelId',
-              'channelName',
-              category: AndroidNotificationCategory.alarm,
-              importance: Importance.max,
-              fullScreenIntent: true,
-              priority: Priority.high,
-            ),
-
-          );
-
-          FlutterLocalNotificationsPlugin()
-              .show(0, "This Id Body", "sdfasdfd", await notification_detail);
-        }):null,
-
+                AwesomeNotifications().createNotification(
+                    content: NotificationContent(
+                      id: 0,
+                      channelKey: "channelId",
+                      badge: 0,
+                      title: "asdfasdf",
+                      body: "asjdff",
+                      fullScreenIntent: true,
+                      category: NotificationCategory.Alarm,
+                      customSound: "resource://raw/sound.wav",
+                      notificationLayout: NotificationLayout.Messaging,
+                      bigPicture: 'https://gratisography.com/wp-content/uploads/2024/10/gratisography-birthday-dog-sunglasses-800x525.jpg'
+                    ),
+                    actionButtons: [
+                      NotificationActionButton(key: "Close", label: "Close"),
+                      NotificationActionButton(key: "New", label: "New"),
+                      NotificationActionButton(key: "Reply", label: "Reply",requireInputText:true),
+                    ]);
+              })
+            : null,
         body: PageTransitionSwitcher(
-          duration:const Duration(milliseconds: 700),
-          transitionBuilder: (Widget child, Animation<double> animation, Animation<double> secondaryAnimation) {
+          duration: const Duration(milliseconds: 700),
+          transitionBuilder: (Widget child, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
             return FadeThroughTransition(
               animation: animation,
               secondaryAnimation: secondaryAnimation,
@@ -271,13 +298,10 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
           },
           child: pages[currentPage],
         ),
-
         bottomNavigationBar: Custombotomnavigationbar(
-          onTap: (n){
+          onTap: (n) {
             currentPage = n;
-            setState(() {
-
-            });
+            setState(() {});
           },
           currentIndex: currentPage,
           items: [
@@ -292,7 +316,6 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
                   'assets/bottomnavigation/chat.png',
                   color: currentPage == 0 ? Color(0xFFF60205) : Colors.black,
                 ),
-
               ),
               label: "Chat ",
             ),
@@ -302,13 +325,16 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
                 height: SC.from_width(23),
                 child: Image.asset(
                   'assets/profile.png',
-                  color: currentPage == 1 ? Color(0xFFF60205): Colors.black,
+                  color: currentPage == 1 ? Color(0xFFF60205) : Colors.black,
                 ),
               ),
               label: "User Profile",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.logout_outlined,color:  currentPage == 2 ? Color(0xFFF60205): Colors.black,),
+              icon: Icon(
+                Icons.logout_outlined,
+                color: currentPage == 2 ? Color(0xFFF60205) : Colors.black,
+              ),
               label: "Log Out",
             ),
           ],
@@ -317,5 +343,3 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Sing
     );
   }
 }
-
-

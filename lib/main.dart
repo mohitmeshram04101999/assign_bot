@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:assignbot/Mohit/backGround%20NotificationHendle.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:assignbot/Mohit/notification.dart';
 import 'package:assignbot/component/background_service.dart';
@@ -25,86 +26,52 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 // Define the top-level function for handling background messages
 
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  Logger().e("bacgroubn Notification is Receved ${message.data}");
-  await Firebase.initializeApp();
-
-
-  AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings("@mipmap/launcher_icon");
-
-  InitializationSettings initializationSettings = InitializationSettings(
-      android: androidInitializationSettings
-  );
-
-  await FlutterLocalNotificationsPlugin().initialize(initializationSettings);
-
-  AndroidNotificationDetails androidNotificationDetails =
-  AndroidNotificationDetails("full_screen_intent", "hggfgfgdfgdfgdfdf",
-      importance: Importance.max,
-      playSound: true,
-      sound: RawResourceAndroidNotificationSound('sound'),
-      category: AndroidNotificationCategory.alarm,
-      priority: Priority.high,
-      fullScreenIntent: true);
-
-  final platformNoitifcationPlugin =
-  NotificationDetails(android: androidNotificationDetails);
-
-  // await FlutterLocalNotificationsPlugin()
-  //     .show(0, "This Id Body", "sdfasdfd", platformNoitifcationPlugin,payload: );
-
-  //
-
-  Logger().i("backGround notification receved\nPaylode : - \n${message.data}");
-
-  await NotificationService().showNotification(message: message, id: 0);
-}
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-
-  await initializeService();
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // await initializeService();
 
-  
+  await AwesomeNotifications().initialize("resource://mipmap/ic_launcher", [
+    NotificationChannel(
+        channelKey: "channelId",
+        channelName: "channelId",
+        channelDescription: "channelDescription",
+        playSound: true,
+        soundSource: "resource://raw/sound",
+        defaultRingtoneType: DefaultRingtoneType.Alarm,
+        importance: NotificationImportance.Max),
+  ]);
+
+
+  await AwesomeNotifications().setListeners(
+    onActionReceivedMethod: handleTap,
+  );
+
+
+  ReceivedAction? receivedAction =  await AwesomeNotifications().getInitialNotificationAction();
 
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-
-  AwesomeNotifications().initialize(
-    debug: true,
-    // Your app icon
-    'resource://drawable/ic_launcher',
-    [
-      NotificationChannel(
-        channelKey: 'basic_channel',
-        channelName: 'Basic notifications',
-        channelDescription: 'Notification channel for basic tests',
-        defaultColor: Color(0xFF9D50DD),
-        ledColor: Colors.white,
-        importance: NotificationImportance.High,
-      )
-    ],
-  );
 
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => MessageController()),
       ChangeNotifierProvider(create: (context) => ContactController()),
     ],
-    child: const MyApp(),
+    child:  MyApp(action: receivedAction,),
   ));
 }
 
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final ReceivedAction? action;
+  const MyApp({this.action,super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -163,7 +130,7 @@ class _MyAppState extends State<MyApp> {
 
       navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
-        home:user?.token!=null&&user?.token!=''?MyBottomNavigationBar(): const OnboardPage(),
+        home:user?.token!=null&&user?.token!=''?MyBottomNavigationBar(action: widget.action,): const OnboardPage(),
              );
   }
 }

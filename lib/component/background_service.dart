@@ -72,7 +72,12 @@ void onStart(ServiceInstance service) async {
     service.stopSelf();
   });
 
+
+
   Timer.periodic(Duration(seconds: 5), (timer) async {
+
+
+
     try {
       // if (service is AndroidServiceInstance) {
       //   if (await service.isForegroundService()) {
